@@ -13,7 +13,7 @@ char *ft_itohex(int c)
 	return NULL;
 }
 
-void	print_output_64(int nsyms, int symoff, int stroff, void *ptr)
+void	print_output_64(int nsyms, int symoff, int stroff, void *ptr, t_sect *tsect)
 {
 	int i;
 	char *stringtable;
@@ -34,19 +34,22 @@ void	print_output_64(int nsyms, int symoff, int stroff, void *ptr)
 				if ( (int)(((unsigned char)array[i].n_type)>>5 & 1) != 1 &&\
 					 (int)(((unsigned char)array[i].n_type)>>6 & 1) != 1 &&\
 					 (int)(((unsigned char)array[i].n_type)>>7 & 1) != 1\
-					 && i ==111111111)
+					)
 				{
+					printf("%hhu\t  ",array[i].n_sect); 
+					print_byte_uint8_t(array[i].n_sect);
 					ft_atoi_hex((void *)array[i].n_value);
+					while (tsect != NULL || ft_strcmp((char*)tsect->sym,(char*)array[i].n_sect)==0)
+						tsect = tsect->next;
 
-					/* if ((array[i].n_sect >> 0 & 1) == 0) */
-					printf("%hhu ",array[i].n_sect);
-					if ((array[i].n_sect >> 0 & 1) == 1)
-						ft_putstr(" T ");
-					else
-						ft_putstr(" U ");
+/* 					if ((array[i].n_sect >> 0 & 1) == 1) */
+/* 						ft_putstr(" T "); */
+/* 					else */
+/* 						ft_putstr(" U "); */
+					
 				ft_putendl(stringtable + array[i].n_un.n_strx);
 				//ft_atoi_hex(stringtable + array[i].n_un.n_strx);
-								print_byte_uint8_t(array[i].n_sect);
+
 				}
 
 			i++;
@@ -59,8 +62,8 @@ void	handle_64(void *ptr)
 	t_cmds *c;
 	t_sect *tsect;
 
-  	//tsect = malloc(sizeof(tsect));
-	tsect = NULL;
+  	tsect = malloc(sizeof(t_sect));
+	lst_init(tsect);
 	c = ( t_cmds *)malloc(sizeof(c));
 	c->header = (struct mach_header_64 *) ptr;
 	c->ncmds = c->header->ncmds;
@@ -73,7 +76,7 @@ void	handle_64(void *ptr)
   			if (c->lc->cmd == LC_SYMTAB)
 				{
 					c->sym = (struct symtab_command *) c->lc;
-					print_output_64(c->sym->nsyms, c->sym->symoff,c->sym->stroff, ptr);
+					print_output_64(c->sym->nsyms, c->sym->symoff,c->sym->stroff, ptr,tsect);
 					break;
 				}
 			c->lc = (void *) c->lc + c->lc->cmdsize;
@@ -86,8 +89,9 @@ void	handle_64(void *ptr)
 			ft_putendl("NOP NOP NOP NOP NOP");
 		while (tsect != NULL)
 			{
-				printf("\t \t seg:%s  nbsect:%d  sect :%s \n",tsect->segname,tsect->nbsect,tsect->sectname);
+				printf("\t \t seg:%s  nsym:%d  sect :%s \n",tsect->segname,tsect->nsym,tsect->sectname);
 				fflush(stdout);
+				tsect = tsect->next;
 			}
 		//else
 

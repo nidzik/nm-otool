@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/11 11:55:25 by nidzik            #+#    #+#             */
-/*   Updated: 2016/12/01 23:40:37 by nidzik           ###   ########.fr       */
+/*   Updated: 2017/02/20 13:36:25 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef NM_H
@@ -50,6 +50,9 @@ void 		handle_32(void *ptr);
 void		handle_64(void *ptr);
 char		*ft_itoa_base(unsigned long long int nb, int base);
 t_sect		*get_seg_table(void *ptr_seg, t_sect *tsect);
+
+void		lst_init(t_sect *tsect);
+void		lst_add(t_sect *tsect,char *seg, char *sect);
 
 void		print_bit_uint8_t(uint8_t ptr);
 void		print_byte_uint8_t(uint8_t c);
