@@ -41,6 +41,7 @@ SRCSFILES = main.c \
 			nm_64.c \
 			nm_32.c \
 			utils.c \
+			utils2.c \
 			seg_sect.c \
 			manage_list.c
 

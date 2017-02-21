@@ -20,7 +20,10 @@ void	print_output_64(int nsyms, int symoff, int stroff, void *ptr, t_sect *tsect
 	struct nlist_64 *array;
 	uint32_t op;
 	struct section_64 *sect;
+	t_sect *tmp;
 
+	
+	//	tmp = tsect;
 	sect = (struct section_64 *)ptr + symoff;
 	//	struct segment_command_64 *seg;
 	i = 0;
@@ -29,6 +32,13 @@ void	print_output_64(int nsyms, int symoff, int stroff, void *ptr, t_sect *tsect
 	op = 0;
 	while (i < nsyms)
 		{
+			tmp = tsect;
+			/* while (tmp != NULL) */
+            /* { */
+            /*     printf("\t \t seg:%s  nsym:%d  sect :%s \n",tmp->segname,tmp->nsym,tmp->sectname); */
+            /*     fflush(stdout); */
+            /*     tmp = tmp->next; */
+            /* } */
 			//			if (array[i].n_sect == 0)
 			//				if ( (int)(((unsigned char)array[i].n_type)>>0 & 1) == N_EXT)
 				if ( (int)(((unsigned char)array[i].n_type)>>5 & 1) != 1 &&\
@@ -36,13 +46,28 @@ void	print_output_64(int nsyms, int symoff, int stroff, void *ptr, t_sect *tsect
 					 (int)(((unsigned char)array[i].n_type)>>7 & 1) != 1\
 					)
 				{
-					printf("%hhu\t  ",array[i].n_sect); 
-					print_byte_uint8_t(array[i].n_sect);
+					//printf("%hhu\t %s ",array[i].n_sect,tmp->sectname); fflush(stdout);
+					//print_byte_uint8_t(array[i].n_sect);
 					ft_atoi_hex((void *)array[i].n_value);
-					while (tsect != NULL || ft_strcmp((char*)tsect->sym,(char*)array[i].n_sect)==0)
-						tsect = tsect->next;
-
-/* 					if ((array[i].n_sect >> 0 & 1) == 1) */
+					(void)tsect;
+					while (tmp != NULL)
+						{
+							if ((int)(array[i].n_sect) == 0)
+														ft_putendl("error");
+							if (tmp->nsym != (int)(array[i].n_sect))
+								tmp = tmp->next;
+							else
+								break;
+						}
+					if (tmp != NULL)
+						{
+							ft_putchar(' ');
+							ft_putchar(tmp->sym);
+							ft_putchar(' ');
+						}
+					else
+						ft_putendl("error");
+//					if ((array[i].n_sect >> 0 & 1) == 1) 
 /* 						ft_putstr(" T "); */
 /* 					else */
 /* 						ft_putstr(" U "); */

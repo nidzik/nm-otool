@@ -57,5 +57,9 @@ void		lst_add(t_sect *tsect,char *seg, char *sect);
 void		print_bit_uint8_t(uint8_t ptr);
 void		print_byte_uint8_t(uint8_t c);
 void		ft_atoi_hex(void *ptr);
+
+char		*uint8tochar(uint8_t c);
+char		*inttobyte(int c);
+
 #endif
 

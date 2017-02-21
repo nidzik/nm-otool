@@ -20,14 +20,8 @@ void fill_sym(t_sect *sect)
         sect->sym = 'b';
 	else if (ft_strcmp(sect->sectname, SECT_COMMON) == 0)
         sect->sym = 'C';
-	else if (ft_strcmp(sect->sectname,SECT_TEXT) == 0)
-        sect->sym = 'T';
-	else if (ft_strcmp(sect->sectname,SECT_TEXT) == 0)
-        sect->sym = 'T';
-	else if (ft_strcmp(sect->sectname,SECT_TEXT) == 0)
-        sect->sym = 'T';
-	else if (ft_strcmp(sect->sectname,SECT_TEXT) == 0)
-        sect->sym = 'T';
+	else
+		sect->sym = 'U';
 }
 
 void lst_init(t_sect *tsect)
@@ -35,6 +29,7 @@ void lst_init(t_sect *tsect)
 	tsect->segname = NULL;
 	tsect->sectname = NULL;
 	tsect->nsym = 0;
+	tsect->sym = 0;
 	tsect->next = NULL;
 }
 
