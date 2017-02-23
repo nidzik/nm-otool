@@ -52,23 +52,31 @@ void	print_output_64(int nsyms, int symoff, int stroff, void *ptr, t_sect *tsect
 					(void)tsect;
 					while (tmp != NULL)
 						{
+
 							if ((int)(array[i].n_sect) == 0)
 								{
 									ft_putstr(" u ");
+									break;
 								}
 							if (tmp->nsym != (int)(array[i].n_sect))
 								tmp = tmp->next;
 							else
+							{
+								ft_putchar(' ');
+								ft_putchar(tmp->sym);
+								ft_putstr(tmp->segname);
+								ft_putchar(' ');
 								break;
+							}
 						}
-					if (tmp != NULL)
-						{
-							ft_putchar(' ');
-							ft_putchar(tmp->sym);
-							ft_putchar(' ');
-						}
-					else
-						ft_putendl("error");
+/* 					if (tmp != NULL) */
+/* 						{ */
+/* 							ft_putchar(' '); */
+/* 							ft_putchar(tmp->sym); */
+/* 							ft_putchar(' '); */
+/* 						} */
+//					else
+//						ft_putendl("error");
 //					if ((array[i].n_sect >> 0 & 1) == 1) 
 /* 						ft_putstr(" T "); */
 /* 					else */
@@ -116,7 +124,7 @@ void	handle_64(void *ptr)
 			ft_putendl("NOP NOP NOP NOP NOP");
 		while (tsect != NULL)
 			{
-				printf("\t \t seg:%s  nsym:%d  sect :%s \n",tsect->segname,tsect->nsym,tsect->sectname);
+				printf("\t \t seg:%s  nsym:%d  sym:%c   sect :%s \n",tsect->segname,tsect->nsym,tsect->sym, tsect->sectname);
 				fflush(stdout);
 				tsect = tsect->next;
 			}

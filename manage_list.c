@@ -6,17 +6,25 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/20 12:54:14 by nidzik            #+#    #+#             */
-/*   Updated: 2017/02/20 16:42:55 by nidzik           ###   ########.fr       */
+/*   Updated: 2017/02/23 15:29:41 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "nm.h"
 
+void cmp_segtxt(t_sect *sect)
+{
+	if (ft_strcmp(sect->sectname, SECT_TEXT) == 0)
+        sect->sym = 'T';
+	else
+		sect->sym = 's';
+}
+
 void fill_sym(t_sect *sect)
 {
 	if (ft_strcmp(sect->sectname, SECT_TEXT) == 0)
 		sect->sym = 'T';
-	else if (ft_strcmp(sect->sectname, SECT_DATA) == 0)
+	else if (ft_strcmp(sect->sectname, SECT_BSS) == 0)
         sect->sym = 'b';
 	else if (ft_strcmp(sect->sectname, SECT_COMMON) == 0)
         sect->sym = 'C';
