@@ -53,7 +53,9 @@ void	print_output_64(int nsyms, int symoff, int stroff, void *ptr, t_sect *tsect
 					while (tmp != NULL)
 						{
 							if ((int)(array[i].n_sect) == 0)
-														ft_putendl("error");
+								{
+									ft_putstr(" u ");
+								}
 							if (tmp->nsym != (int)(array[i].n_sect))
 								tmp = tmp->next;
 							else
