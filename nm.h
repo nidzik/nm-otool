@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/11 11:55:25 by nidzik            #+#    #+#             */
-/*   Updated: 2017/02/20 13:36:25 by nidzik           ###   ########.fr       */
+/*   Updated: 2017/02/24 21:46:37 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef NM_H
@@ -46,6 +46,15 @@ typedef struct			s_sect
 	
 }						t_sect;
 
+typedef struct          s_res
+{
+	char			*off;
+	char			*sym;
+	char			*name;
+    struct s_res 	*prev;
+    struct s_res 	*next;
+}						t_res;
+
 void 		handle_32(void *ptr);
 void		handle_64(void *ptr);
 char		*ft_itoa_base(unsigned long long int nb, int base);
@@ -53,6 +62,8 @@ t_sect		*get_seg_table(void *ptr_seg, t_sect *tsect);
 
 void		lst_init(t_sect *tsect);
 void		lst_add(t_sect *tsect,char *seg, char *sect);
+void		lst_res_add_name(t_res *res, char *name);
+	
 
 void		print_bit_uint8_t(uint8_t ptr);
 void		print_byte_uint8_t(uint8_t c);

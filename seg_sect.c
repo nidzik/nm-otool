@@ -23,7 +23,7 @@ t_sect *get_sect(void *ptr,int nbsect,t_sect *tsect,char *segname)
 	}
 	while (nbsect > 0)
 	{
-		printf("%08x, %s \n",sect->flags,sect->sectname);
+		//printf("%08x, %s \n",sect->flags,sect->sectname);
 		lst_add(tsect,(char*)segname,sect->sectname);
 		sect = (void *)sect + sizeof(*(sect));
 		nbsect--;

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   nm_64.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/02/24 21:40:50 by nidzik            #+#    #+#             */
+/*   Updated: 2017/02/24 23:07:23 by nidzik           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "nm.h"
 #include <limits.h>
 
@@ -21,7 +33,7 @@ void	print_output_64(int nsyms, int symoff, int stroff, void *ptr, t_sect *tsect
 	uint32_t op;
 	struct section_64 *sect;
 	t_sect *tmp;
-
+	t_res *res;
 	
 	//	tmp = tsect;
 	sect = (struct section_64 *)ptr + symoff;
@@ -30,6 +42,8 @@ void	print_output_64(int nsyms, int symoff, int stroff, void *ptr, t_sect *tsect
 	array = ptr + symoff;
 	stringtable = ptr + stroff;
 	op = 0;
+	res = malloc(sizeof(t_res));
+	res->next = NULL;
 	while (i < nsyms)
 		{
 			tmp = tsect;
@@ -46,34 +60,47 @@ void	print_output_64(int nsyms, int symoff, int stroff, void *ptr, t_sect *tsect
 					 (int)(((unsigned char)array[i].n_type)>>7 & 1) != 1\
 					)
 				{
-					//printf("%hhu\t %s ",array[i].n_sect,tmp->sectname); fflush(stdout);
-					print_bit_uint8_t(array[i].n_type);
+//					printf("%d \t %s ",(int)array[i].n_value,tmp->sectname); fflush(stdout);
+					//print_bit_uint8_t(array[i].n_value);
+//					printf("-%d-%d;\n",tmp->nsym, (int)(array[i].n_sect));fflush(stdout);
 					ft_atoi_hex((void *)array[i].n_value);
 					(void)tsect;
 					while (tmp != NULL)
 						{
 							if ((int)(array[i].n_sect) == 0)
 								{
-									ft_putstr(" u ");
-								}
+									ft_putstr(" U ");
+									break;
+									}
 							if (tmp->nsym != (int)(array[i].n_sect))
 								tmp = tmp->next;
 							else
+							{
+								ft_putchar(' ');
+								if ((array[i].n_type>>0 & 1) == 0)
+									ft_putchar(ft_tolower(tmp->sym));
+								else
+									ft_putchar(tmp->sym);
+								ft_putchar(' ');
 								break;
+							}
 						}
-					if (tmp != NULL)
-						{
-							ft_putchar(' ');
-							ft_putchar(tmp->sym);
-							ft_putchar(' ');
-						}
-					else
-						ft_putendl("error");
+/* 					if (tmp != NULL) */
+/* 						{ */
+/* 							ft_putchar('_'); */
+/* 							if ((array[i].n_type>>7 & 1) == 0) */
+/* 								ft_putchar(ft_tolower(tmp->sym)); */
+/* 							else  */
+/* 								ft_putchar(tmp->sym); */
+/* 							ft_putchar(' '); */
+/* 						} */
+/* 					else */
+/* 						ft_putendl("error"); */
 //					if ((array[i].n_sect >> 0 & 1) == 1) 
 /* 						ft_putstr(" T "); */
 /* 					else */
 /* 						ft_putstr(" U "); */
-					
+					lst_res_add_name(res,stringtable + array[i].n_un.n_strx);
 				ft_putendl(stringtable + array[i].n_un.n_strx);
 				//ft_atoi_hex(stringtable + array[i].n_un.n_strx);
 
@@ -81,6 +108,27 @@ void	print_output_64(int nsyms, int symoff, int stroff, void *ptr, t_sect *tsect
 
 			i++;
 		}
+//	lst_sort(res);
+	if (res)
+		ft_putstr("oui");
+	else 
+		ft_putstr("nono");
+	while (res != NULL)
+	{
+			ft_putstr("prev:");
+		if (res->prev != NULL)
+			ft_putendl(res->name);
+		else
+			ft_putendl("null");
+		ft_putstr("cur:");
+		if (res->name != NULL)
+			ft_putendl(res->name);
+		ft_putstr("next:");
+		if (res->next != NULL)
+			ft_putendl(res->name);
+
+		res = res->next;
+	}
 }
 
 void	handle_64(void *ptr)
@@ -110,16 +158,16 @@ void	handle_64(void *ptr)
 			i++;
 		}
 	//	get_sect((void *)c->lc);
-		if (tsect!=NULL)
-			ft_putendl("weird");
-		else
-			ft_putendl("NOP NOP NOP NOP NOP");
-		while (tsect != NULL)
-			{
-				printf("\t \t seg:%s  nsym:%d  sect :%s \n",tsect->segname,tsect->nsym,tsect->sectname);
-				fflush(stdout);
-				tsect = tsect->next;
-			}
+/* 		if (tsect!=NULL) */
+/* 			ft_putendl("weird"); */
+/* 		else */
+/* 			ft_putendl("NOP NOP NOP NOP NOP"); */
+/* 		while (tsect != NULL) */
+/* 			{ */
+/* 				printf("\t \t seg:%s  nsym:%d  sect :%s \n",tsect->segname,tsect->nsym,tsect->sectname); */
+/* 				fflush(stdout); */
+/* 				tsect = tsect->next; */
+/* 			} */
 		//else
 
 	//	free(array);
