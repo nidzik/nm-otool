@@ -23,7 +23,10 @@ void cmp_segtxt(t_sect *sect)
 void fill_sym(t_sect *sect)
 {
 	if (ft_strcmp(sect->sectname, SECT_TEXT) == 0)
-		sect->sym = 'T';
+		{
+			cmp_segtxt(sect);
+				//			return;
+		}
 	else if (ft_strcmp(sect->sectname, SECT_BSS) == 0)
         sect->sym = 'b';
 	else if (ft_strcmp(sect->sectname, SECT_COMMON) == 0)
