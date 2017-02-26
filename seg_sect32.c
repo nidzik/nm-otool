@@ -1,33 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   seg_sect.c                                         :+:      :+:    :+:   */
+/*   seg_sect32.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/26 17:39:38 by nidzik            #+#    #+#             */
-/*   Updated: 2017/02/26 17:39:39 by nidzik           ###   ########.fr       */
+/*   Created: 2017/02/26 17:39:34 by nidzik            #+#    #+#             */
+/*   Updated: 2017/02/26 20:39:59 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "nm.h"
 
-void test(t_sect *tsect)
+t_sect *get_sect_32(void *ptr,int nbsect,t_sect *tsect,char *segname)
 {
-	while (tsect != NULL)
-	{
-		printf("%p ",tsect);fflush(stdout);
-		printf("%p ",tsect->next);fflush(stdout);
-		ft_putendl(tsect->sectname);
-		tsect = tsect->next;
-	}
-}
-
-t_sect *get_sect(void *ptr,int nbsect,t_sect *tsect,char *segname)
-{
-	struct section_64 *sect;
+	struct section *sect;
 	
-	sect = (struct section_64 *)ptr;
+	sect = (struct section *)ptr;
 	if (nbsect == 0)
 	{
 		lst_add(tsect,(char*)segname,"");
@@ -35,7 +24,6 @@ t_sect *get_sect(void *ptr,int nbsect,t_sect *tsect,char *segname)
 	}
 	while (nbsect > 0)
 	{
-		//printf("%08x, %s \n",sect->flags,sect->sectname);
 		lst_add(tsect,(char*)segname,sect->sectname);
 		sect = (void *)sect + sizeof(*(sect));
 		nbsect--;
@@ -44,11 +32,10 @@ t_sect *get_sect(void *ptr,int nbsect,t_sect *tsect,char *segname)
 }
 
 
-t_sect *get_seg_table(void *ptr_seg, t_sect *tsect)
+t_sect *get_seg_table_32(void *ptr_seg, t_sect *tsect)
 {
-	struct segment_command_64 *seg;
-
-	seg = ( struct segment_command_64 *) ptr_seg;
-	get_sect((void *) ptr_seg  + sizeof(*(seg)),seg->nsects, tsect, seg->segname);
+	struct segment_command *seg;
+	seg = ( struct segment_command *) ptr_seg;
+	get_sect_32((void *) ptr_seg  + sizeof(*(seg)),seg->nsects, tsect, seg->segname);
 	return(tsect);
 }

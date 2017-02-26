@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/20 12:54:14 by nidzik            #+#    #+#             */
-/*   Updated: 2017/02/24 20:01:55 by nidzik           ###   ########.fr       */
+/*   Updated: 2017/02/26 21:24:41 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void cmp_segdata(t_sect *sect)
         sect->sym = 'B';
 	else if (ft_strcmp(sect->sectname, SECT_DATA) == 0)
         sect->sym = 'D';
+    //else if (ft_strcmp(sect->sectname, SECT_COMMON) == 0)
+	// sect->sym = 'C';
 	else
 		sect->sym = 'S';
 }
@@ -38,8 +40,8 @@ void fill_sym(t_sect *sect)
 			cmp_segtxt(sect);
 	else if (ft_strcmp(sect->segname, SEG_DATA) == 0)
 		cmp_segdata(sect);
-	else if (ft_strcmp(sect->sectname, SECT_COMMON) == 0)
-        sect->sym = 'C';
+	else if (ft_strcmp(sect->segname, SEG_OBJC) == 0)
+        sect->sym = 'S';
 	else
 		sect->sym = 'U';
 }
@@ -50,6 +52,7 @@ void lst_init(t_sect *tsect)
 	tsect->sectname = NULL;
 	tsect->nsym = 0;
 	tsect->sym = 0;
+	tsect->fat = 0;
 	tsect->next = NULL;
 }
 

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/02/26 20:36:26 by nidzik            #+#    #+#             */
+/*   Updated: 2017/02/26 21:25:47 by nidzik           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "nm.h"
 
 void nm_type(void* ptr)
@@ -9,7 +21,9 @@ void nm_type(void* ptr)
 		handle_64(ptr);
 	else if (magic_number == (int)MH_MAGIC)
 		handle_32(ptr);
-	
+	else 
+		handle_fat((void *)ptr + 4096);
+
 }
 
 int mmap_file(int fd)

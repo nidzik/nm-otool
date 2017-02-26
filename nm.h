@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/11 11:55:25 by nidzik            #+#    #+#             */
-/*   Updated: 2017/02/24 21:46:37 by nidzik           ###   ########.fr       */
+/*   Updated: 2017/02/26 21:29:54 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef NM_H
@@ -16,6 +16,7 @@
 #include <sys/mman.h>
 #include <mach-o/loader.h>
 #include <mach-o/nlist.h>
+#include <mach-o/fat.h>
 #include <fcntl.h>
 #include <sys/stat.h>
 
@@ -24,7 +25,17 @@
 #define FLAGS 0,FLAGS_PROT ,FLAGS_MAP, -1, 0
 
 
+#define DEBUG ft_putchar('a');
 
+
+typedef struct			s_cmds32
+{
+	int ncmds;
+
+	struct mach_header	*header;
+	struct load_command		*lc;
+	struct symtab_command	*sym;
+}						t_cmds32;
 
 typedef struct			s_cmds
 {
@@ -39,7 +50,7 @@ typedef struct			s_sect
 	int		nbsect;
 	char 	*segname;
 	char	*sectname;
-
+	int 	fat;
 	char	sym;
 	int		nsym;
 	struct s_sect *next;
@@ -57,8 +68,10 @@ typedef struct          s_res
 
 void 		handle_32(void *ptr);
 void		handle_64(void *ptr);
+void		handle_fat(void *ptr);
 char		*ft_itoa_base(unsigned long long int nb, int base);
 t_sect		*get_seg_table(void *ptr_seg, t_sect *tsect);
+t_sect		*get_seg_table_32(void *ptr_seg, t_sect *tsect);
 
 void		lst_init(t_sect *tsect);
 void		lst_add(t_sect *tsect,char *seg, char *sect);
@@ -70,6 +83,8 @@ void		print_list(t_res *op);
 void		print_bit_uint8_t(uint8_t ptr);
 void		print_byte_uint8_t(uint8_t c);
 char		*ft_atoi_hex(void *ptr);
+char		*ft_atoi_hex_32(unsigned int ptr);
+char		*ft_atoi_hex_fat(unsigned int ptr);
 
 char		*uint8tochar(uint8_t c);
 char		*inttobyte(int c);
