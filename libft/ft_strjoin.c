@@ -21,7 +21,7 @@ char		*ft_strjoin(const char *s1, const char *s2)
 	dst = ft_strnew(ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (!dst)
 		return ((char *)0);
-	ft_strcpy(dst, s1);
-	ft_strcat(dst, s2);
+	ft_strncpy(dst, s1, ft_strlen(s1));
+	ft_strncat(dst, s2, ft_strlen(s2));
 	return (dst);
 }

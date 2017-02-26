@@ -30,10 +30,10 @@ void	print_output_64(int nsyms, int symoff, int stroff, void *ptr, t_sect *tsect
 	int i;
 	char *stringtable;
 	struct nlist_64 *array;
-	uint32_t op;
 	struct section_64 *sect;
 	t_sect *tmp;
 	t_res *res;
+	char sym;
 	
 	//	tmp = tsect;
 	sect = (struct section_64 *)ptr + symoff;
@@ -41,95 +41,42 @@ void	print_output_64(int nsyms, int symoff, int stroff, void *ptr, t_sect *tsect
 	i = 0;
 	array = ptr + symoff;
 	stringtable = ptr + stroff;
-	op = 0;
-	res = malloc(sizeof(t_res));
-	res->next = NULL;
+	res = NULL;
+	
 	while (i < nsyms)
 		{
 			tmp = tsect;
-			/* while (tmp != NULL) */
-            /* { */
-            /*     printf("\t \t seg:%s  nsym:%d  sect :%s \n",tmp->segname,tmp->nsym,tmp->sectname); */
-            /*     fflush(stdout); */
-            /*     tmp = tmp->next; */
-            /* } */
-			//			if (array[i].n_sect == 0)
-			//				if ( (int)(((unsigned char)array[i].n_type)>>0 & 1) == N_EXT)
 				if ( (int)(((unsigned char)array[i].n_type)>>5 & 1) != 1 &&\
 					 (int)(((unsigned char)array[i].n_type)>>6 & 1) != 1 &&\
 					 (int)(((unsigned char)array[i].n_type)>>7 & 1) != 1\
 					)
 				{
-//					printf("%d \t %s ",(int)array[i].n_value,tmp->sectname); fflush(stdout);
-					//print_bit_uint8_t(array[i].n_value);
-//					printf("-%d-%d;\n",tmp->nsym, (int)(array[i].n_sect));fflush(stdout);
-					ft_atoi_hex((void *)array[i].n_value);
-					(void)tsect;
 					while (tmp != NULL)
 						{
 							if ((int)(array[i].n_sect) == 0)
 								{
-									ft_putstr(" U ");
+									sym = 'U'; 
 									break;
 									}
 							if (tmp->nsym != (int)(array[i].n_sect))
 								tmp = tmp->next;
 							else
 							{
-								ft_putchar(' ');
 								if ((array[i].n_type>>0 & 1) == 0)
-									ft_putchar(ft_tolower(tmp->sym));
+									sym = (ft_tolower(tmp->sym));
 								else
-									ft_putchar(tmp->sym);
-								ft_putchar(' ');
+									sym = (tmp->sym);
 								break;
 							}
 						}
-/* 					if (tmp != NULL) */
-/* 						{ */
-/* 							ft_putchar('_'); */
-/* 							if ((array[i].n_type>>7 & 1) == 0) */
-/* 								ft_putchar(ft_tolower(tmp->sym)); */
-/* 							else  */
-/* 								ft_putchar(tmp->sym); */
-/* 							ft_putchar(' '); */
-/* 						} */
-/* 					else */
-/* 						ft_putendl("error"); */
-//					if ((array[i].n_sect >> 0 & 1) == 1) 
-/* 						ft_putstr(" T "); */
-/* 					else */
-/* 						ft_putstr(" U "); */
-					lst_res_add_name(res,stringtable + array[i].n_un.n_strx);
-				ft_putendl(stringtable + array[i].n_un.n_strx);
-				//ft_atoi_hex(stringtable + array[i].n_un.n_strx);
-
+					res = add(res,stringtable + array[i].n_un.n_strx, ft_atoi_hex((void *)array[i].n_value), sym);
 				}
-
 			i++;
 		}
-//	lst_sort(res);
-	if (res)
-		ft_putstr("oui");
-	else 
-		ft_putstr("nono");
-	while (res != NULL)
-	{
-			ft_putstr("prev:");
-		if (res->prev != NULL)
-			ft_putendl(res->name);
-		else
-			ft_putendl("null");
-		ft_putstr("cur:");
-		if (res->name != NULL)
-			ft_putendl(res->name);
-		ft_putstr("next:");
-		if (res->next != NULL)
-			ft_putendl(res->name);
-
-		res = res->next;
-	}
+print_list(res);
 }
+
+
 
 void	handle_64(void *ptr)
 {

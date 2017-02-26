@@ -49,7 +49,7 @@ typedef struct			s_sect
 typedef struct          s_res
 {
 	char			*off;
-	char			*sym;
+	char			sym;
 	char			*name;
     struct s_res 	*prev;
     struct s_res 	*next;
@@ -62,12 +62,14 @@ t_sect		*get_seg_table(void *ptr_seg, t_sect *tsect);
 
 void		lst_init(t_sect *tsect);
 void		lst_add(t_sect *tsect,char *seg, char *sect);
-void		lst_res_add_name(t_res *res, char *name);
-	
+t_res		*init(t_res *op, char *name, char * off, char sym);
+t_res		*add(t_res *op,char *name, char *off, char sym);
+void		sort(t_res *op);
+void		print_list(t_res *op);
 
 void		print_bit_uint8_t(uint8_t ptr);
 void		print_byte_uint8_t(uint8_t c);
-void		ft_atoi_hex(void *ptr);
+char		*ft_atoi_hex(void *ptr);
 
 char		*uint8tochar(uint8_t c);
 char		*inttobyte(int c);
