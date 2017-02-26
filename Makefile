@@ -44,7 +44,8 @@ SRCSFILES = main.c \
 			utils2.c \
 			seg_sect.c \
 			manage_list.c \
-			manage_list_res.c
+			manage_list_res.c \
+			bin.c
 
 SRC = $(addprefix $(SRCPATH)/,$(SRCSFILES))
 OBJECTS = $(SRC:$(SRCPATH)/%.c=$(OBJPATH)/%.o)
