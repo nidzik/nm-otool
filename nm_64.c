@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 21:40:50 by nidzik            #+#    #+#             */
-/*   Updated: 2017/02/26 21:29:08 by nidzik           ###   ########.fr       */
+/*   Updated: 2017/02/27 22:39:19 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,19 +45,22 @@ void	print_output_64(int nsyms, int symoff, int stroff, void *ptr, t_sect *tsect
 	
 	while (i < nsyms)
 		{
+
 			tmp = tsect;
 				if ( (int)(((unsigned char)array[i].n_type)>>5 & 1) != 1 &&\
 					 (int)(((unsigned char)array[i].n_type)>>6 & 1) != 1 &&\
 					 (int)(((unsigned char)array[i].n_type)>>7 & 1) != 1\
 					)
 				{
+
 					while (tmp != NULL)
 						{
+//							printf("nsym:%d   sym:%c %d\n",tmp->nsym, tmp->sym, array[i].n_sect);
 							if ((int)(array[i].n_sect) == 0)
-								{
-									sym = 'U'; 
-									break;
-									}
+							{
+								sym = 'U'; 
+								break;
+							}
 							if (tmp->nsym != (int)(array[i].n_sect))
 								tmp = tmp->next;
 							else
@@ -69,11 +72,13 @@ void	print_output_64(int nsyms, int symoff, int stroff, void *ptr, t_sect *tsect
 								break;
 							}
 						}
-					res = add(res,stringtable + array[i].n_un.n_strx, ft_atoi_hex((void *)array[i].n_value), sym);
+					res = add(res,stringtable + array[i].n_un.n_strx, ft_atoi_hex((void *)array[i].n_value, sym), sym);
 				}
 			i++;
 		}
 print_list(res);
+//free(res);
+//free(tmp);
 }
 
 
@@ -116,8 +121,8 @@ void	handle_64(void *ptr)
 /* 				tsect = tsect->next; */
 /* 			} */
 		//else
-
-	//	free(array);
+//	free(c);
+	//free(tsect);
 }
 
 

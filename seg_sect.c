@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/26 17:39:38 by nidzik            #+#    #+#             */
-/*   Updated: 2017/02/26 17:39:39 by nidzik           ###   ########.fr       */
+/*   Updated: 2017/02/27 22:16:10 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,18 @@ void test(t_sect *tsect)
 t_sect *get_sect(void *ptr,int nbsect,t_sect *tsect,char *segname)
 {
 	struct section_64 *sect;
-	
+	int i;
+
+	i = 0;
 	sect = (struct section_64 *)ptr;
 	if (nbsect == 0)
 	{
-		lst_add(tsect,(char*)segname,"");
+		lst_add(tsect,(char*)segname,"",0);
 		return (tsect);
 	}
 	while (nbsect > 0)
 	{
-		//printf("%08x, %s \n",sect->flags,sect->sectname);
-		lst_add(tsect,(char*)segname,sect->sectname);
+		lst_add(tsect,(char*)segname,sect->sectname,i++);
 		sect = (void *)sect + sizeof(*(sect));
 		nbsect--;
 	}

@@ -6,23 +6,29 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/26 20:36:26 by nidzik            #+#    #+#             */
-/*   Updated: 2017/02/26 21:25:47 by nidzik           ###   ########.fr       */
+/*   Updated: 2017/02/27 19:16:40 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "nm.h"
 
+#define ARCH "!<arch>\n"
+
 void nm_type(void* ptr)
 {
 	int magic_number;
+	char *magic_string;
 
 	magic_number = *(int *)ptr;
+	magic_string = (char *)ptr;
 	if (magic_number == (int)MH_MAGIC_64)
 		handle_64(ptr);
 	else if (magic_number == (int)MH_MAGIC)
 		handle_32(ptr);
-	else 
-		handle_fat((void *)ptr + 4096);
+	else if (ft_strncmp(magic_string, ARCH,8) == 0)
+		handle_lib((char *)ptr);
+	//else 
+	//handle_fat((void *)ptr + 4096);
 
 }
 

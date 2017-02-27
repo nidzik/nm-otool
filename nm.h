@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/11 11:55:25 by nidzik            #+#    #+#             */
-/*   Updated: 2017/02/26 21:29:54 by nidzik           ###   ########.fr       */
+/*   Updated: 2017/02/27 22:31:55 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef NM_H
@@ -19,6 +19,8 @@
 #include <mach-o/fat.h>
 #include <fcntl.h>
 #include <sys/stat.h>
+#include <ar.h>
+#include <mach-o/ranlib.h>
 
 #define FLAGS_PROT PROT_READ | PROT_WRITE
 #define FLAGS_MAP MAP_PRIVATE
@@ -51,6 +53,7 @@ typedef struct			s_sect
 	char 	*segname;
 	char	*sectname;
 	int 	fat;
+	int		lib;
 	char	sym;
 	int		nsym;
 	struct s_sect *next;
@@ -66,15 +69,17 @@ typedef struct          s_res
     struct s_res 	*next;
 }						t_res;
 
+void nm_type(void* ptr);
 void 		handle_32(void *ptr);
 void		handle_64(void *ptr);
 void		handle_fat(void *ptr);
+void 		handle_lib(char *ptr);
 char		*ft_itoa_base(unsigned long long int nb, int base);
 t_sect		*get_seg_table(void *ptr_seg, t_sect *tsect);
 t_sect		*get_seg_table_32(void *ptr_seg, t_sect *tsect);
 
 void		lst_init(t_sect *tsect);
-void		lst_add(t_sect *tsect,char *seg, char *sect);
+void		lst_add(t_sect *tsect,char *seg, char *sect, int i);
 t_res		*init(t_res *op, char *name, char * off, char sym);
 t_res		*add(t_res *op,char *name, char *off, char sym);
 void		sort(t_res *op);
@@ -82,12 +87,13 @@ void		print_list(t_res *op);
 
 void		print_bit_uint8_t(uint8_t ptr);
 void		print_byte_uint8_t(uint8_t c);
-char		*ft_atoi_hex(void *ptr);
+char		*ft_atoi_hex(void *ptr, char c);
 char		*ft_atoi_hex_32(unsigned int ptr);
 char		*ft_atoi_hex_fat(unsigned int ptr);
 
 char		*uint8tochar(uint8_t c);
 char		*inttobyte(int c);
 
+void    print_output_64(int nsyms, int symoff, int stroff, void *ptr, t_sect *tsect);
 #endif
 

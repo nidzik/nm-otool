@@ -6,7 +6,7 @@
 #    By: nidzik <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/11 10:34:54 by nidzik            #+#    #+#              #
-#    Updated: 2017/02/26 17:58:53 by nidzik           ###   ########.fr        #
+#    Updated: 2017/02/27 19:17:22 by nidzik           ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -40,6 +40,7 @@ LFTRE = re
 SRCSFILES = main.c \
 			nm_64.c \
 			nm_32.c \
+			nm_lib.c \
 			utils.c \
 			utils2.c \
 			seg_sect.c \
