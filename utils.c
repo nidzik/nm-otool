@@ -70,7 +70,7 @@ char   *ft_atoi_hex(void *ptr, char c)
 
 }
 
-char   *ft_atoi_hex_32(unsigned int ptr)
+char   *ft_atoi_hex_32(unsigned int ptr,char c)
 {
     char                                *base;
     unsigned long long                  address;
@@ -80,6 +80,8 @@ char   *ft_atoi_hex_32(unsigned int ptr)
 
     base = "0123456789abcdef";
     address = (unsigned long long )ptr;
+    if (c != 'U' && c != 'u' && !address)
+        return ("00000000");
 	hex = (char *)malloc(sizeof(char) * 10);
     ft_bzero(hex, 10);
     i = 7;

@@ -55,7 +55,7 @@ void	print_output_64(int nsyms, int symoff, int stroff, void *ptr, t_sect *tsect
 
 					while (tmp != NULL)
 						{
-//							printf("nsym:%d   sym:%c %d\n",tmp->nsym, tmp->sym, array[i].n_sect);
+							//							printf("nsym:%d   sym:%c %d\n",tmp->nsym, tmp->sym, array[i].n_sect);
 							if ((int)(array[i].n_sect) == 0)
 							{
 								sym = 'U'; 
@@ -83,7 +83,7 @@ print_list(res);
 
 
 
-void	handle_64(void *ptr)
+void	handle_64(void *ptr, int l, char *name)
 {
 	int    i;
 	t_cmds *c;
@@ -95,6 +95,9 @@ void	handle_64(void *ptr)
 	c->header = (struct mach_header_64 *) ptr;
 	c->ncmds = c->header->ncmds;
 	c->lc = (void *)ptr + sizeof(*(c->header)); 
+	if (l == 1 || c->header->filetype == MH_OBJECT)
+		tsect->lib = 1;
+	tsect->namebin = name;
 	i = 0;
 	while (i < c->ncmds)
 		{
@@ -122,7 +125,7 @@ void	handle_64(void *ptr)
 /* 			} */
 		//else
 //	free(c);
-	//free(tsect);
+	free(tsect);
 }
 
 

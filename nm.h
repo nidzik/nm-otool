@@ -54,6 +54,7 @@ typedef struct			s_sect
 	char	*sectname;
 	int 	fat;
 	int		lib;
+	char	*namebin;
 	char	sym;
 	int		nsym;
 	struct s_sect *next;
@@ -69,11 +70,11 @@ typedef struct          s_res
     struct s_res 	*next;
 }						t_res;
 
-void nm_type(void* ptr);
-void 		handle_32(void *ptr);
-void		handle_64(void *ptr);
+int			nm_type(void* ptr, int l, char *name);
+void 		handle_32(void *ptr, int l, char *name);
+void		handle_64(void *ptr, int l, char *name);
 void		handle_fat(void *ptr);
-void 		handle_lib(char *ptr);
+void 		handle_lib(char *ptr, char *namelib);
 char		*ft_itoa_base(unsigned long long int nb, int base);
 t_sect		*get_seg_table(void *ptr_seg, t_sect *tsect);
 t_sect		*get_seg_table_32(void *ptr_seg, t_sect *tsect);
@@ -88,7 +89,7 @@ void		print_list(t_res *op);
 void		print_bit_uint8_t(uint8_t ptr);
 void		print_byte_uint8_t(uint8_t c);
 char		*ft_atoi_hex(void *ptr, char c);
-char		*ft_atoi_hex_32(unsigned int ptr);
+char		*ft_atoi_hex_32(unsigned int ptr, char c);
 char		*ft_atoi_hex_fat(unsigned int ptr);
 
 char		*uint8tochar(uint8_t c);

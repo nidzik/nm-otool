@@ -41,8 +41,9 @@ int t_atoi(const char *str)
 
 
 void print_library(void *ptr, struct ranlib *ran,
-				  unsigned int n)
+				   unsigned int n, char *namelib)
 {
+	//	ft_putchar('\n');	
 	while (n-- > 0)
 	{
 		if ((ran[n].ran_off != ran[n + 1].ran_off) &&
@@ -51,12 +52,15 @@ void print_library(void *ptr, struct ranlib *ran,
 			//ft_printf("\n%s(%s):\n", e->file,
 			// ptr + ran[n].ran_off + sizeof(struct ar_hdr));
 //			ft_putchar('g');
-			ft_putendl( ptr + ran[n].ran_off + sizeof(struct ar_hdr));
+ft_putchar('\n');
+			ft_putstr(namelib);
+			ft_putchar('(');
+			ft_putstr( ptr + ran[n].ran_off + sizeof(struct ar_hdr));
+			ft_putstr("):\n");
 //			printf("%lu\n",(int)ran[n].ran_off + sizeof(struct ar_hdr)+ t_atoi(ptr + ran[n].ran_off + 3));//+ sizeof(struct ar_hdr));// + sizeof(struct ar_hdr) );
 
 			nm_type((void *)ptr + ran[n].ran_off + sizeof(struct ar_hdr)
-					 + t_atoi(ptr + ran[n].ran_off + 3));
-			ft_putchar('\n');
+					+ t_atoi(ptr + ran[n].ran_off + 3), 1, "lib");
 			//nm(ptr + ran[n].ran_off + sizeof(struct ar_hdr)
 			// + ft_atoi(ptr + ran[n].ran_off + 3), e);
 		}
@@ -90,7 +94,7 @@ void sort_library(struct ranlib *ran, unsigned int n)
 	}
 }
 
-void handle_lib(char *ptr)
+void handle_lib(char *ptr, char *namelib)
 {
 	int hdr_sz;
 	unsigned int i;
@@ -123,6 +127,6 @@ void handle_lib(char *ptr)
 	i = *(int *)(ptr + hdr_sz) / sizeof(struct ranlib);
 
 	sort_library(ran, i);
-	print_library(ptr, ran, i);
+	print_library(ptr, ran, i, namelib);
 	free(ran);
 }

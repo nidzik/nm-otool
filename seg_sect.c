@@ -26,7 +26,7 @@ void test(t_sect *tsect)
 t_sect *get_sect(void *ptr,int nbsect,t_sect *tsect,char *segname)
 {
 	struct section_64 *sect;
-	int i;
+	int i = 0;
 
 	i = 0;
 	sect = (struct section_64 *)ptr;

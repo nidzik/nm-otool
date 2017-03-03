@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   nm_64.c                                            :+:      :+:    :+:   */
+/*   nm_32.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -57,7 +57,7 @@ void	print_output_32(int nsyms, int symoff, int stroff, void *ptr, t_sect *tsect
 					if (tsect->fat == 1)
 					res = add(res,stringtable + array[i].n_un.n_strx, ft_atoi_hex_fat(array[i].n_value), sym);
 					else
-						res = add(res,stringtable + array[i].n_un.n_strx, ft_atoi_hex_32(array[i].n_value), sym);
+						res = add(res,stringtable + array[i].n_un.n_strx, ft_atoi_hex_32(array[i].n_value, sym), sym);
 				}
 			i++;
 		}
@@ -66,7 +66,7 @@ print_list(res);
 
 
 
-void	handle_32(void *ptr)
+void	handle_32(void *ptr, int l, char *name)
 {
 	int    i;
 	t_cmds32 *c;
@@ -78,7 +78,10 @@ void	handle_32(void *ptr)
 	tsect->fat = 0;
 	c->header = (struct mach_header *) ptr;
 	c->ncmds = c->header->ncmds;
-	c->lc = (void *)ptr + sizeof(*(c->header)); 
+	c->lc = (void *)ptr + sizeof(*(c->header));
+	    if (l == 1 || c->header->filetype == MH_OBJECT)
+        tsect->lib = 1;
+    tsect->namebin = name;
 	i = 0;
 	while (i < c->ncmds)
 		{
@@ -100,14 +103,29 @@ void	handle_fat(void *ptr)
 	int    i;
 	t_cmds32 *c;
 	t_sect *tsect;
-
+	struct fat_arch *arch;
+	
+	//		int magic_number;
+	//	arch = ptr;a//
+	//ptr = (void *)ptr + 4096;
   	tsect = malloc(sizeof(t_sect));
 	lst_init(tsect);
 	c = ( t_cmds32 *)malloc(sizeof(c->header));
 	tsect->fat = 1;
 	c->header = (struct mach_header *) ptr;
 	c->ncmds = c->header->ncmds;
-	c->lc = (void *)ptr + sizeof(*(c->header)); 
+	c->lc = (void *)ptr + sizeof(*(c->header));
+	arch = (struct fat_arch *)ptr  + sizeof(arch);
+	handle_64((void *)ptr + arch->offset,0,NULL);
+	return;
+	//	magic_number = *((int *)((void *)ptr + 4096));
+	//if (magic_number == (int)MH_MAGIC_64)
+	//		ft_putendl("magic");
+	//	else
+	//					ft_putendl("nop");
+	//		if (nm_type((void *)ptr + 4096, 2, NULL) == 1)
+	//			return;
+	   
 	i = 0;
 	while (i < c->ncmds)
 		{

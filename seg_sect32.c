@@ -15,7 +15,7 @@
 t_sect *get_sect_32(void *ptr,int nbsect,t_sect *tsect,char *segname)
 {
 	struct section *sect;
-	int i;
+	int i = 0;
 
 	i = 0;
 	sect = (struct section *)ptr;
@@ -26,7 +26,7 @@ t_sect *get_sect_32(void *ptr,int nbsect,t_sect *tsect,char *segname)
 	}
 	while (nbsect > 0)
 	{
-		lst_add(tsect,(char*)segname, sect->sectname, i);
+		lst_add(tsect,(char*)segname, sect->sectname, i++);
 		sect = (void *)sect + sizeof(*(sect));
 		nbsect--;
 	}
