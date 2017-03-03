@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/20 12:54:14 by nidzik            #+#    #+#             */
-/*   Updated: 2017/02/27 22:37:25 by nidzik           ###   ########.fr       */
+/*   Updated: 2017/03/03 19:12:45 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void fill_sym(t_sect *sect)
 			cmp_segtxt(sect);
 			if (sect->sym != 'T')
 				cmp_segdata(sect);
-			//		ft_putendl("lib");
+//					ft_putendl("lib");
 		}
 	else
 		sect->sym = 'U';
@@ -105,7 +105,7 @@ void lst_add(t_sect *tsect,char *seg, char *sect, int i)
 		}
 	new->next = NULL;
 	fill_sym(new);
-	//		printf("%s  %s  %c  %d\n",new->segname,new->sectname, new->sym, new->nsym);fflush(stdout);
+			printf("%s  %s  %c  %d\n",new->segname,new->sectname, new->sym, new->nsym);fflush(stdout);
 	tmp->next = new;
 
 }

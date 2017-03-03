@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 21:40:50 by nidzik            #+#    #+#             */
-/*   Updated: 2017/02/26 21:31:19 by nidzik           ###   ########.fr       */
+/*   Updated: 2017/03/03 19:35:57 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void	handle_fat(void *ptr)
 	t_cmds32 *c;
 	t_sect *tsect;
 	struct fat_arch *arch;
-	
+	struct mach_header_64 *h64;
 	//		int magic_number;
 	//	arch = ptr;a//
 	//ptr = (void *)ptr + 4096;
@@ -115,8 +115,17 @@ void	handle_fat(void *ptr)
 	c->header = (struct mach_header *) ptr;
 	c->ncmds = c->header->ncmds;
 	c->lc = (void *)ptr + sizeof(*(c->header));
-	arch = (struct fat_arch *)ptr  + sizeof(arch);
-	handle_64((void *)ptr + arch->offset,0,NULL);
+	arch = (struct fat_arch *)malloc(sizeof(struct fat_arch));
+	arch = (ptr + sizeof(struct fat_header *)) + sizeof(struct fat_arch);
+
+	h64 = malloc(sizeof(struct mach_header_64));
+	h64 = (void *)ptr + arch->offset/16/16;
+//	ft_putendl("lib");
+//	ft_putnbr(h64->filetype);
+	if (h64->filetype == MH_DYLIB)
+		handle_64((void *)ptr + arch->offset/16/16,1,NULL);
+	else
+		handle_64((void *)ptr + arch->offset/16/16,0,NULL);
 	return;
 	//	magic_number = *((int *)((void *)ptr + 4096));
 	//if (magic_number == (int)MH_MAGIC_64)
