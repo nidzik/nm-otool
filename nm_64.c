@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 21:40:50 by nidzik            #+#    #+#             */
-/*   Updated: 2017/02/27 22:39:19 by nidzik           ###   ########.fr       */
+/*   Updated: 2017/03/04 16:56:30 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,15 @@ void	print_output_64(int nsyms, int symoff, int stroff, void *ptr, t_sect *tsect
 								break;
 							}
 						}
+//					ft_putchar('h');
 					res = add(res,stringtable + array[i].n_un.n_strx, ft_atoi_hex((void *)array[i].n_value, sym), sym);
 				}
+				//			ft_putchar('l');
 			i++;
 		}
+//	ft_putchar('p');
 print_list(res);
+//ft_putchar('k');
 //free(res);
 //free(tmp);
 }
@@ -95,7 +99,7 @@ void	handle_64(void *ptr, int l, char *name)
 	c->header = (struct mach_header_64 *) ptr;
 	c->ncmds = c->header->ncmds;
 	c->lc = (void *)ptr + sizeof(*(c->header)); 
-	if (l == 1 || c->header->filetype == MH_OBJECT)
+	if (l == 1 || c->header->filetype == MH_OBJECT || c->header->filetype == MH_DYLIB)
 		tsect->lib = 1;
 	tsect->namebin = name;
 	i = 0;
@@ -125,7 +129,7 @@ void	handle_64(void *ptr, int l, char *name)
 /* 			} */
 		//else
 //	free(c);
-	free(tsect);
+//	free(tsect);
 }
 
 

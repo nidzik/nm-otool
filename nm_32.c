@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 21:40:50 by nidzik            #+#    #+#             */
-/*   Updated: 2017/03/03 19:35:57 by nidzik           ###   ########.fr       */
+/*   Updated: 2017/03/04 15:59:33 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,15 @@ void	handle_32(void *ptr, int l, char *name)
 			i++;
 		}
 }
-
+uint32_t swap_little_big(uint32_t num)
+{
+	uint32_t swapped;
+	swapped = ((num>>24)&0xff) | // move byte 3 to byte 0
+		((num<<8)&0xff0000) | // move byte 1 to byte 2
+		((num>>8)&0xff00) | // move byte 2 to byte 1
+		((num<<24)&0xff000000); // byte 0 to byte 3
+	return(swapped);
+}
 void	handle_fat(void *ptr)
 {
 	int    i;
@@ -116,18 +124,26 @@ void	handle_fat(void *ptr)
 	c->ncmds = c->header->ncmds;
 	c->lc = (void *)ptr + sizeof(*(c->header));
 	arch = (struct fat_arch *)malloc(sizeof(struct fat_arch));
-	arch = (ptr + sizeof(struct fat_header *));// + sizeof(struct fat_arch);
-	printf("off:%u\n",arch->offset);fflush(stdout);
+	arch = (ptr + sizeof(struct fat_header *)) + sizeof(struct fat_arch);
+//	printf("off:%u\n",arch->offset/16/16);fflush(stdout);
 	h64 = malloc(sizeof(struct mach_header_64));
-	h64 = (void *)ptr + arch->offset/16/16;
+	h64 = (void *)ptr + (swap_little_big(arch->offset));
 //	ft_putendl("lib");
 //	ft_putnbr(h64->filetype);
-	printf("off:%8x\n",arch->offset);fflush(stdout);
-	printf("filetype%8x\n",h64->filetype);fflush(stdout);
-	if (h64->filetype == MH_DYLIB)
-		handle_64((void *)ptr + arch->offset/16/16,1,NULL);
+//	print_byte_uint32_t(arch->offset);
+//	printf("\natoi:%s\n",ft_atoi_hex_fat(arch->offset));fflush(stdout);
+//	printf("off:%8x\n",arch->offset);fflush(stdout);
+//	printf("filetype%8x\n",h64->filetype);fflush(stdout);
+	if (h64->filetype == MH_DYLIB || h64->filetype == MH_DYLINKER)
+	{
+//		ft_putchar('a');
+		handle_64((void *)ptr + swap_little_big(arch->offset),1,NULL);
+	}
 	else
-		handle_64((void *)ptr + arch->offset/16/16,0,NULL);
+	{
+		//	ft_putchar('b');
+		handle_64((void *)ptr + swap_little_big(arch->offset),0,NULL);
+	}
 	return;
 	//	magic_number = *((int *)((void *)ptr + 4096));
 	//if (magic_number == (int)MH_MAGIC_64)

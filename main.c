@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/26 20:36:26 by nidzik            #+#    #+#             */
-/*   Updated: 2017/03/03 19:15:28 by nidzik           ###   ########.fr       */
+/*   Updated: 2017/03/04 16:01:06 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int  nm_type(void* ptr, int l, char *name)
 {
 	int magic_number;
 	char *magic_string;
-
+	//ft_putchar('g');
 	magic_number = *(int *)ptr;
 	magic_string = (char *)ptr;
 	if (magic_number == (int)MH_MAGIC_64 && l == 1)
@@ -40,7 +40,7 @@ int  nm_type(void* ptr, int l, char *name)
 			if (magic_number == (int)MH_MAGIC_64)
 				handle_64(ptr + 4096, 0, name);
 			else{
-								ft_putchar('h');
+//								ft_putchar('h');
 				handle_fat((void *)ptr);
 			}
 						

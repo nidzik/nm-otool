@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/26 17:47:10 by nidzik            #+#    #+#             */
-/*   Updated: 2017/02/27 21:30:56 by nidzik           ###   ########.fr       */
+/*   Updated: 2017/03/04 16:19:32 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ char   *ft_atoi_hex(void *ptr, char c)
     address = (unsigned long long )ptr;
 	if (c != 'U' && c != 'u' && !address)
 		return ("0000000000000000");
-	hex = (char *)malloc(sizeof(char) * 10);
-    ft_bzero(hex, 10);
-    i = 8;
+	hex = (char *)malloc(sizeof(char) * 16);
+    ft_bzero(hex, 17);
+    i = 15;
 	check = 0;
     while (address)
     {
@@ -63,7 +63,9 @@ char   *ft_atoi_hex(void *ptr, char c)
 		while (i >= 0)
 			hex[i--] = '0';
     if (check == 1)
-		return (ft_strjoin("0000000",hex));
+
+		return (ft_strjoin("",hex));
+//		return (hex);
         /* ft_putstr("0000000"); */
     else
         return ("                ");

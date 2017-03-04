@@ -26,6 +26,7 @@ void addinter(t_res *op)
     op->prev = op->next;
     op->next = tmp;
 }
+
 void sort(t_res *op)
 {
 	while (op->next != NULL)

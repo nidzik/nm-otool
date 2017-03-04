@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 18:44:03 by nidzik            #+#    #+#             */
-/*   Updated: 2017/02/27 22:28:43 by nidzik           ###   ########.fr       */
+/*   Updated: 2017/03/04 19:07:07 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,17 @@ int t_atoi(const char *str)
 void print_library(void *ptr, struct ranlib *ran,
 				   unsigned int n, char *namelib)
 {
+//ft_putendl(namelib);
 	//	ft_putchar('\n');	
 	while (n-- > 0)
 	{
-		if ((ran[n].ran_off != ran[n + 1].ran_off) &&
+		if (((ran[n].ran_off != ran[n + 1].ran_off) )&&
 			!ft_strncmp(ptr + ran[n].ran_off, AR_EFMT1, ft_strlen(AR_EFMT1)))
 		{
 			//ft_printf("\n%s(%s):\n", e->file,
 			// ptr + ran[n].ran_off + sizeof(struct ar_hdr));
 //			ft_putchar('g');
-ft_putchar('\n');
+			ft_putchar('\n');
 			ft_putstr(namelib);
 			ft_putchar('(');
 			ft_putstr( ptr + ran[n].ran_off + sizeof(struct ar_hdr));
@@ -64,7 +65,18 @@ ft_putchar('\n');
 			//nm(ptr + ran[n].ran_off + sizeof(struct ar_hdr)
 			// + ft_atoi(ptr + ran[n].ran_off + 3), e);
 		}
+		else if(ran[n].ran_off != ran[n + 1].ran_off) 
+		{
+			ft_putchar('-');
+			ft_putstr(namelib);
+		}
+		else if (!ft_strncmp(ptr + ran[n].ran_off, AR_EFMT1, ft_strlen(AR_EFMT1)))
+		{
+			ft_putchar('_');
+			ft_putstr(namelib);
+		}
 	}
+	ft_putstr(namelib);
 }
 
 void sort_library(struct ranlib *ran, unsigned int n)
