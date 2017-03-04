@@ -105,7 +105,7 @@ void lst_add(t_sect *tsect,char *seg, char *sect, int i)
 		}
 	new->next = NULL;
 	fill_sym(new);
-			printf("%s  %s  %c  %d\n",new->segname,new->sectname, new->sym, new->nsym);fflush(stdout);
+				printf("%s  %s  %c  %d\n",new->segname,new->sectname, new->sym, new->nsym);fflush(stdout);
 	tmp->next = new;
 
 }

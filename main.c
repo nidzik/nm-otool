@@ -40,7 +40,7 @@ int  nm_type(void* ptr, int l, char *name)
 			if (magic_number == (int)MH_MAGIC_64)
 				handle_64(ptr + 4096, 0, name);
 			else{
-				ft_putchar('h');
+								ft_putchar('h');
 				handle_fat((void *)ptr);
 			}
 						

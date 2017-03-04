@@ -116,12 +116,14 @@ void	handle_fat(void *ptr)
 	c->ncmds = c->header->ncmds;
 	c->lc = (void *)ptr + sizeof(*(c->header));
 	arch = (struct fat_arch *)malloc(sizeof(struct fat_arch));
-	arch = (ptr + sizeof(struct fat_header *)) + sizeof(struct fat_arch);
-
+	arch = (ptr + sizeof(struct fat_header *));// + sizeof(struct fat_arch);
+	printf("off:%u\n",arch->offset);fflush(stdout);
 	h64 = malloc(sizeof(struct mach_header_64));
 	h64 = (void *)ptr + arch->offset/16/16;
 //	ft_putendl("lib");
 //	ft_putnbr(h64->filetype);
+	printf("off:%8x\n",arch->offset);fflush(stdout);
+	printf("filetype%8x\n",h64->filetype);fflush(stdout);
 	if (h64->filetype == MH_DYLIB)
 		handle_64((void *)ptr + arch->offset/16/16,1,NULL);
 	else
