@@ -31,18 +31,24 @@ void sort(t_res *op)
 {
 	while (op->next != NULL)
 		{
-			if (ft_strcmp(op->name, op->next->name) > 0)
+			while (ft_strcmp(op->name, op->next->name) > 0)
 				{
 					if (op->prev == NULL)
 						addbegin(op);
 					else
 					addinter(op);
-					while(op->prev != NULL)
+					if(op->prev != NULL && op->next && ft_strcmp(op->name, op->next->name) > 0)
 						op = op->prev;
+					else
+						{
+							while (op->prev != NULL)
+								op = op->prev;
+						}
 				}
-			else
+			
 				op = op->next;
 		}
+
 }
 
 t_res *add(t_res *op,char *name, char *off, char sym)
