@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 21:40:50 by nidzik            #+#    #+#             */
-/*   Updated: 2017/03/04 15:59:33 by nidzik           ###   ########.fr       */
+/*   Updated: 2017/03/22 08:05:26 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,16 @@ void	print_output_32(int nsyms, int symoff, int stroff, void *ptr, t_sect *tsect
 						}
 					if (tsect->fat == 1)
 						{//ft_putchar('q');
-						res = add(res,stringtable + array[i].n_un.n_strx, ft_atoi_hex_fat(array[i].n_value), sym);}
+							//res = add(res,stringtable + array[i].n_un.n_strx, ft_atoi_hex_fat(array[i].n_value), sym);
+}
 					else
 						{//ft_putchar('q');
-							res = add(res,stringtable + array[i].n_un.n_strx, ft_atoi_hex_32(array[i].n_value, sym), sym);}
+							//res = add(res,stringtable + array[i].n_un.n_strx, ft_atoi_hex_32(array[i].n_value, sym), sym);
+}
 				}
 			i++;
 		}
-	print_list(res);
+//	print_list(res);
 }
 
 
@@ -88,11 +90,12 @@ void	handle_32(void *ptr, int l, char *name)
 	while (i < c->ncmds)
 		{
 			if (c->lc->cmd == LC_SEGMENT)
-				tsect = get_seg_table_32((void *)c->lc, tsect);
+				(void)i;
+//				tsect = get_seg_table_32((void *)c->lc, tsect);
   			if (c->lc->cmd == LC_SYMTAB)
 				{
 					c->sym = (struct symtab_command *) c->lc;
-					print_output_32(c->sym->nsyms, c->sym->symoff,c->sym->stroff, ptr,tsect);
+//					print_output_32(c->sym->nsyms, c->sym->symoff,c->sym->stroff, ptr,tsect);
 					break;
 				}
 			c->lc = (void *) c->lc + c->lc->cmdsize;

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   otool.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/03/22 07:48:56 by nidzik            #+#    #+#             */
+/*   Updated: 2017/03/22 13:15:22 by nidzik           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef OTOOL_H
 #define OTOOL_H
 
@@ -57,7 +69,7 @@ void 		handle_32(void *ptr, int l, char *name);
 void		handle_64(void *ptr, int l, char *name);
 void		handle_fat(void *ptr);
 void 		handle_lib(char *ptr, char *namelib);
-t_sect		*get_seg_table(void *ptr_seg, t_sect *tsect);
+t_sect		*get_seg_table(void *ptr_seg, t_sect *tsect, void *ptr);
 t_sect		*get_seg_table_32(void *ptr_seg, t_sect *tsect);
 char		*ft_atoi_hex(void *ptr, char c);
 char		*ft_atoi_hex_32(unsigned int ptr, char c);

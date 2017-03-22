@@ -6,7 +6,7 @@
 #    By: nidzik <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/11 10:34:54 by nidzik            #+#    #+#              #
-#    Updated: 2017/02/27 19:17:22 by nidzik           ###   ########.fr        #
+#    Updated: 2017/03/22 07:59:06 by nidzik           ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -43,6 +43,7 @@ SRCSFILES = main.c \
 			nm_lib.c\
 			manage_list.c\
 			seg_sect.c\
+			utils.c 
 
 SRC = $(addprefix $(SRCPATH)/,$(SRCSFILES))
 OBJECTS = $(SRC:$(SRCPATH)/%.c=$(OBJPATH)/%.o)
