@@ -18,7 +18,7 @@ int  nm_type(void* ptr, int l, char *name)
 {
 	int magic_number;
 	char *magic_string;
-	//ft_putchar('g');
+
 	magic_number = *(int *)ptr;
 	magic_string = (char *)ptr;
 	if (magic_number == (int)MH_MAGIC_64 && l == 1)
@@ -39,15 +39,10 @@ int  nm_type(void* ptr, int l, char *name)
 			magic_number = *((int *)((void *)ptr + 4096));
 			if (magic_number == (int)MH_MAGIC_64)
 				handle_64(ptr + 4096, 0, name);
-			else{
-//								ft_putchar('h');
+			else
 				handle_fat((void *)ptr);
-			}
-						
-			
-
         }
-	return 1;
+	return (1);
 }
 
 int mmap_file(int fd, char *name)
@@ -79,9 +74,7 @@ int main(int ac, char **av)
 					return (0);
 				}
 			else
-				{
 					mmap_file(fd,"a.out");
-				}
 		}
 	else
 		while (*av)
@@ -101,9 +94,6 @@ int main(int ac, char **av)
 					}
 				av++;
 			}
-
-
-        
 	return (0);
 }
 

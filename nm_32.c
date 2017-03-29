@@ -12,7 +12,7 @@
 
 #include "nm.h"
 #include <limits.h>
-
+ 
 void	print_output_32(int nsyms, int symoff, int stroff, void *ptr, t_sect *tsect)
 {
 	int i;
@@ -31,10 +31,10 @@ void	print_output_32(int nsyms, int symoff, int stroff, void *ptr, t_sect *tsect
 	while (i < nsyms)
 		{
 			tmp = tsect;
-				if ( (int)(((unsigned char)array[i].n_type)>>5 & 1) != 1 &&\
-					 (int)(((unsigned char)array[i].n_type)>>6 & 1) != 1 &&\
-					 (int)(((unsigned char)array[i].n_type)>>7 & 1) != 1\
-					)
+			if ( (int)(((unsigned char)array[i].n_type)>>5 & 1) != 1 &&\
+				 (int)(((unsigned char)array[i].n_type)>>6 & 1) != 1 &&\
+				 (int)(((unsigned char)array[i].n_type)>>7 & 1) != 1\
+				 )
 				{
 					while (tmp != NULL)
 						{
@@ -42,26 +42,28 @@ void	print_output_32(int nsyms, int symoff, int stroff, void *ptr, t_sect *tsect
 								{
 									sym = 'U'; 
 									break;
-									}
+								}
 							if (tmp->nsym != (int)(array[i].n_sect))
 								tmp = tmp->next;
 							else
-							{
-								if ((array[i].n_type>>0 & 1) == 0)
-									sym = (ft_tolower(tmp->sym));
-								else
-									sym = (tmp->sym);
-								break;
-							}
+								{
+									if ((array[i].n_type>>0 & 1) == 0)
+										sym = (ft_tolower(tmp->sym));
+									else
+										sym = (tmp->sym);
+									break;
+								}
 						}
 					if (tsect->fat == 1)
-					res = add(res,stringtable + array[i].n_un.n_strx, ft_atoi_hex_fat(array[i].n_value), sym);
+						{//ft_putchar('q');
+						res = add(res,stringtable + array[i].n_un.n_strx, ft_atoi_hex_fat(array[i].n_value), sym);}
 					else
-						res = add(res,stringtable + array[i].n_un.n_strx, ft_atoi_hex_32(array[i].n_value, sym), sym);
+						{//ft_putchar('q');
+							res = add(res,stringtable + array[i].n_un.n_strx, ft_atoi_hex_32(array[i].n_value, sym), sym);}
 				}
 			i++;
 		}
-print_list(res);
+	print_list(res);
 }
 
 
@@ -79,7 +81,7 @@ void	handle_32(void *ptr, int l, char *name)
 	c->header = (struct mach_header *) ptr;
 	c->ncmds = c->header->ncmds;
 	c->lc = (void *)ptr + sizeof(*(c->header));
-	    if (l == 1 || c->header->filetype == MH_OBJECT)
+	if (l == 1 || c->header->filetype == MH_OBJECT)
         tsect->lib = 1;
     tsect->namebin = name;
 	i = 0;
@@ -125,25 +127,25 @@ void	handle_fat(void *ptr)
 	c->lc = (void *)ptr + sizeof(*(c->header));
 	arch = (struct fat_arch *)malloc(sizeof(struct fat_arch));
 	arch = (ptr + sizeof(struct fat_header *)) + sizeof(struct fat_arch);
-//	printf("off:%u\n",arch->offset/16/16);fflush(stdout);
+	//	printf("off:%u\n",arch->offset/16/16);fflush(stdout);
 	h64 = malloc(sizeof(struct mach_header_64));
 	h64 = (void *)ptr + (swap_little_big(arch->offset));
-//	ft_putendl("lib");
-//	ft_putnbr(h64->filetype);
-//	print_byte_uint32_t(arch->offset);
-//	printf("\natoi:%s\n",ft_atoi_hex_fat(arch->offset));fflush(stdout);
-//	printf("off:%8x\n",arch->offset);fflush(stdout);
-//	printf("filetype%8x\n",h64->filetype);fflush(stdout);
+	//	ft_putendl("lib");
+	//	ft_putnbr(h64->filetype);
+	//	print_byte_uint32_t(arch->offset);
+	//	printf("\natoi:%s\n",ft_atoi_hex_fat(arch->offset));fflush(stdout);
+	//	printf("off:%8x\n",arch->offset);fflush(stdout);
+	//	printf("filetype%8x\n",h64->filetype);fflush(stdout);
 	if (h64->filetype == MH_DYLIB || h64->filetype == MH_DYLINKER)
-	{
-//		ft_putchar('a');
-		handle_64((void *)ptr + swap_little_big(arch->offset),1,NULL);
-	}
+		{
+			//		ft_putchar('a');
+			handle_64((void *)ptr + swap_little_big(arch->offset),1,NULL);
+		}
 	else
-	{
-		//	ft_putchar('b');
-		handle_64((void *)ptr + swap_little_big(arch->offset),0,NULL);
-	}
+		{
+			//	ft_putchar('b');
+			handle_64((void *)ptr + swap_little_big(arch->offset),0,NULL);
+		}
 	return;
 	//	magic_number = *((int *)((void *)ptr + 4096));
 	//if (magic_number == (int)MH_MAGIC_64)

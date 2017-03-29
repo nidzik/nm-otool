@@ -43,12 +43,15 @@ int t_atoi(const char *str)
 void print_library(void *ptr, struct ranlib *ran,
 				   unsigned int n, char *namelib)
 {
+	unsigned int check_ran;
+
+	check_ran = -1;
 //ft_putendl(namelib);
 	//	ft_putchar('\n');	
 	while (n-- > 0)
 	{
-		if (((ran[n].ran_off != ran[n + 1].ran_off) )&&
-			!ft_strncmp(ptr + ran[n].ran_off, AR_EFMT1, ft_strlen(AR_EFMT1)))
+		if (((ran[n].ran_off != check_ran) ))//&&
+			//			!ft_strncmp(ptr + ran[n].ran_off, AR_EFMT1, ft_strlen(AR_EFMT1)))
 		{
 			//ft_printf("\n%s(%s):\n", e->file,
 			// ptr + ran[n].ran_off + sizeof(struct ar_hdr));
@@ -65,18 +68,8 @@ void print_library(void *ptr, struct ranlib *ran,
 			//nm(ptr + ran[n].ran_off + sizeof(struct ar_hdr)
 			// + ft_atoi(ptr + ran[n].ran_off + 3), e);
 		}
-		else if(ran[n].ran_off != ran[n + 1].ran_off) 
-		{
-			ft_putchar('-');
-			ft_putstr(namelib);
-		}
-		else if (!ft_strncmp(ptr + ran[n].ran_off, AR_EFMT1, ft_strlen(AR_EFMT1)))
-		{
-			ft_putchar('_');
-			ft_putstr(namelib);
-		}
+		check_ran = ran[n].ran_off;
 	}
-	ft_putstr(namelib);
 }
 
 void sort_library(struct ranlib *ran, unsigned int n)

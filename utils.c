@@ -64,7 +64,7 @@ char   *ft_atoi_hex(void *ptr, char c)
 			hex[i--] = '0';
     if (check == 1)
 
-		return (ft_strjoin("",hex));
+		return (ft_strjoin("\0",hex));
 //		return (hex);
         /* ft_putstr("0000000"); */
     else
