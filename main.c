@@ -24,10 +24,7 @@ int  nm_type(void* ptr, int l, char *name)
 	if (magic_number == (int)MH_MAGIC_64 && l == 1)
 		handle_64(ptr,1, name);
 	else if (magic_number == (int)MH_MAGIC_64 && (l == 0 || l == 2))
-		{
-
 			handle_64(ptr,0, name);
-		}
 	else if (magic_number == (int)MH_MAGIC && l == 1)
 		handle_32(ptr, 1, name);
 	else if (magic_number == (int)MH_MAGIC && l == 0)

@@ -24,54 +24,68 @@ char *ft_itohex(int c)
 	return NULL;
 }
 
+t_env* init_env(t_env *e, void *ptr, int symoff, int stroff)
+{
+	e = (t_env *)malloc(sizeof(t_env));
+	e->sym = 0;
+	e->i = 0;
+	e->tmp = NULL;
+	e->array = ptr + symoff;
+	e->array32 = ptr + symoff;
+	e->stringtable = ptr + stroff;
+	e->res = NULL;
+	return (e);
+}
+
+void ft_boucle(t_env *e)
+{
+	while (e->tmp != NULL)
+		{
+			if ((int)(e->array[e->i].n_sect) == 0)
+				{
+					e->sym = 'U';
+					break;
+				}
+			if (e->tmp->nsym != (int)(e->array[e->i].n_sect))
+				{
+					e->tmp = e->tmp->next;
+				}
+			else
+				{
+					if ((e->array[e->i].n_type>>0 & 1) == 0)
+						e->sym = (ft_tolower(e->tmp->sym));
+					else
+						e->sym = (e->tmp->sym);
+					break;
+				}
+		}
+	e->res = add(e->res,e->stringtable + e->array[e->i].n_un.n_strx,\
+				 ft_atoi_hex((void *)e->array[e->i].n_value, e->sym), e->sym);
+}
+
 void	print_output_64(int nsyms, int symoff, int stroff, void *ptr, t_sect *tsect)
 {
-	int i;
-	char *stringtable;
-	struct nlist_64 *array;
 	struct section_64 *sect;
-	t_sect *tmp;
-	t_res *res;
-	char sym;
-	
+	t_env *e;
+
+	e = NULL;
+	e = init_env(e, ptr, symoff, stroff);
 	sect = (struct section_64 *)ptr + symoff;
-	i = 0;
-	array = ptr + symoff;
-	stringtable = ptr + stroff;
-	res = NULL;
-	while (i < nsyms)
+	while (e->i < nsyms)
 		{
-			tmp = tsect;
-				if ( (int)(((unsigned char)array[i].n_type)>>5 & 1) != 1 &&\
-					 (int)(((unsigned char)array[i].n_type)>>6 & 1) != 1 &&\
-					 (int)(((unsigned char)array[i].n_type)>>7 & 1) != 1\
-					)
+			e->tmp = tsect;
+			if ( (int)(((unsigned char)e->array[e->i].n_type)>>5 & 1) != 1 &&\
+				 (int)(((unsigned char)e->array[e->i].n_type)>>6 & 1) != 1 &&\
+				 (int)(((unsigned char)e->array[e->i].n_type)>>7 & 1) != 1\
+				 )
 				{
-					while (tmp != NULL)
-						{
-							if ((int)(array[i].n_sect) == 0)
-							{
-								sym = 'U'; 
-								break;
-							}
-							if (tmp->nsym != (int)(array[i].n_sect))
-								tmp = tmp->next;
-							else
-							{
-								if ((array[i].n_type>>0 & 1) == 0)
-									sym = (ft_tolower(tmp->sym));
-								else
-									sym = (tmp->sym);
-								break;
-							}
-						}
-					res = add(res,stringtable + array[i].n_un.n_strx, ft_atoi_hex((void *)array[i].n_value, sym), sym);
+					ft_boucle(e);	
 				}
-			i++;
+			e->i++;
 		}
-print_list(res);
-//free(res);
-//free(tmp);
+	print_list(e->res);
+	//free(res);
+	//free(e->e->tmp);
 }
 
 
@@ -105,8 +119,8 @@ void	handle_64(void *ptr, int l, char *name)
 			c->lc = (void *) c->lc + c->lc->cmdsize;
 			i++;
 		}
-//	free(c);
-//	free(tsect);
+	//	free(c);
+	//	free(tsect);
 }
 
 

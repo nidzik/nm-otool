@@ -70,6 +70,17 @@ typedef struct          s_res
     struct s_res 	*next;
 }						t_res;
 
+typedef struct			s_env
+{
+	char 				sym;
+	t_sect				*tmp;
+	int 				i;
+	char				*stringtable;
+	struct nlist_64 	*array;
+	struct nlist	 	*array32;
+	t_res				*res;
+}						t_env;
+
 int			nm_type(void* ptr, int l, char *name);
 void 		handle_32(void *ptr, int l, char *name);
 void		handle_64(void *ptr, int l, char *name);
@@ -96,5 +107,6 @@ char		*uint8tochar(uint8_t c);
 char		*inttobyte(int c);
 
 void    print_output_64(int nsyms, int symoff, int stroff, void *ptr, t_sect *tsect);
+t_env*	init_env(t_env *e, void *ptr, int symoff, int stroff);
 #endif
 

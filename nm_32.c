@@ -12,58 +12,56 @@
 
 #include "nm.h"
 #include <limits.h>
- 
+
+
+void ft_boucle_32(t_env *e)
+{
+	while (e->tmp != NULL)
+		{
+			if ((int)(e->array32[e->i].n_sect) == 0)
+				{
+					e->sym = 'U'; 
+					break;
+				}
+			if (e->tmp->nsym != (int)(e->array32[e->i].n_sect))
+				e->tmp = e->tmp->next;
+			else
+				{
+					if ((e->array32[e->i].n_type>>0 & 1) == 0)
+						e->sym = (ft_tolower(e->tmp->sym));
+					else
+						e->sym = (e->tmp->sym);
+					break;
+				}
+		}
+}
+
 void	print_output_32(int nsyms, int symoff, int stroff, void *ptr, t_sect *tsect)
 {
-	int i;
-	char *stringtable;
-	struct nlist *array;
 	struct section *sect;
-	t_sect *tmp;
-	t_res *res;
-	char sym;
+	t_env *e;
+
+	e = NULL;
+	e = init_env(e, ptr, symoff, stroff);
 	
 	sect = (struct section *)ptr + symoff;
-	i = 0;
-	array = ptr + symoff;
-	stringtable = ptr + stroff;
-	res = NULL;
-	while (i < nsyms)
+	while (e->i < nsyms)
 		{
-			tmp = tsect;
-			if ( (int)(((unsigned char)array[i].n_type)>>5 & 1) != 1 &&\
-				 (int)(((unsigned char)array[i].n_type)>>6 & 1) != 1 &&\
-				 (int)(((unsigned char)array[i].n_type)>>7 & 1) != 1\
+			e->tmp = tsect;
+			if ( (int)(((unsigned char)e->array32[e->i].n_type)>>5 & 1) != 1 &&\
+				 (int)(((unsigned char)e->array32[e->i].n_type)>>6 & 1) != 1 &&\
+				 (int)(((unsigned char)e->array32[e->i].n_type)>>7 & 1) != 1\
 				 )
 				{
-					while (tmp != NULL)
-						{
-							if ((int)(array[i].n_sect) == 0)
-								{
-									sym = 'U'; 
-									break;
-								}
-							if (tmp->nsym != (int)(array[i].n_sect))
-								tmp = tmp->next;
-							else
-								{
-									if ((array[i].n_type>>0 & 1) == 0)
-										sym = (ft_tolower(tmp->sym));
-									else
-										sym = (tmp->sym);
-									break;
-								}
-						}
+					ft_boucle_32(e);
 					if (tsect->fat == 1)
-						{//ft_putchar('q');
-						res = add(res,stringtable + array[i].n_un.n_strx, ft_atoi_hex_fat(array[i].n_value), sym);}
+							e->res = add(e->res,e->stringtable + e->array32[e->i].n_un.n_strx, ft_atoi_hex_fat(e->array32[e->i].n_value), e->sym);
 					else
-						{//ft_putchar('q');
-							res = add(res,stringtable + array[i].n_un.n_strx, ft_atoi_hex_32(array[i].n_value, sym), sym);}
+							e->res = add(e->res,e->stringtable + e->array32[e->i].n_un.n_strx, ft_atoi_hex_32(e->array32[e->i].n_value, e->sym), e->sym);
 				}
-			i++;
+			e->i++;
 		}
-	print_list(res);
+	print_list(e->res);
 }
 
 
