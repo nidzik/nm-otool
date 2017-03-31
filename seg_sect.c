@@ -6,27 +6,17 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/26 17:39:38 by nidzik            #+#    #+#             */
-/*   Updated: 2017/02/27 22:16:10 by nidzik           ###   ########.fr       */
+/*   Updated: 2017/03/31 16:08:39 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "nm.h"
 
-void test(t_sect *tsect)
-{
-	while (tsect != NULL)
-	{
-		printf("%p ",tsect);fflush(stdout);
-		printf("%p ",tsect->next);fflush(stdout);
-		ft_putendl(tsect->sectname);
-		tsect = tsect->next;
-	}
-}
 
 t_sect *get_sect(void *ptr,int nbsect,t_sect *tsect,char *segname)
 {
 	struct section_64 *sect;
-	int i = 0;
+	int i;
 
 	i = 0;
 	sect = (struct section_64 *)ptr;
