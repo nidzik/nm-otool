@@ -60,67 +60,64 @@ void	ft_boucle(t_env *e)
 			break ;
 		}
 	}
-	e->res = add(e->res,e->stringtable + e->array[e->i].n_un.n_strx,	\
-				 ft_atoi_hex((void *)e->array[e->i].n_value, e->sym), e->sym);
+	e->res = add(e->res, e->stringtable + e->array[e->i].n_un.n_strx, \
+				ft_atoi_hex((void *)e->array[e->i].n_value, e->sym), e->sym);
 }
 
-void	print_output_64(int nsyms, int symoff, int stroff, void *ptr, t_sect *tsect)
+void	print_output_64(t_cmds *c, void *ptr, \
+						t_sect *tsect)
 {
 	struct section_64	*sect;
-	t_env 				*e;
+	t_env				*e;
 
 	e = (t_env *)malloc(sizeof(t_env));
-	e = init_env(e, ptr, symoff, stroff);
-	sect = (struct section_64 *)ptr + symoff;
-	while (e->i < nsyms)
+	e = init_env(e, ptr, c->sym->symoff, c->sym->stroff);
+	sect = (struct section_64 *)ptr + c->sym->symoff;
+	while (e->i < (int)c->sym->nsyms)
+	{
+		e->tmp = tsect;
+		if ((int)(((unsigned char)e->array[e->i].n_type) >> 5 & 1) != 1 && \
+			(int)(((unsigned char)e->array[e->i].n_type) >> 6 & 1) != 1 && \
+			(int)(((unsigned char)e->array[e->i].n_type) >> 7 & 1) != 1)
 		{
-			e->tmp = tsect;
-			if ( (int)(((unsigned char)e->array[e->i].n_type)>>5 & 1) != 1 &&\
-				 (int)(((unsigned char)e->array[e->i].n_type)>>6 & 1) != 1 &&\
-				 (int)(((unsigned char)e->array[e->i].n_type)>>7 & 1) != 1\
-				 )
-				{
-					ft_boucle(e);	
-				}
-			e->i++;
+			ft_boucle(e);
 		}
+		e->i++;
+	}
 	print_list(e->res);
 	free(e);
 }
 
-
-
 void	handle_64(void *ptr, int l, char *name)
 {
-	int    i;
-	t_cmds *c;
-	t_sect *tsect;
+	int		i;
+	t_cmds	*c;
+	t_sect	*tsect;
 
-  	tsect = malloc(sizeof(t_sect));
+	tsect = malloc(sizeof(t_sect));
 	lst_init(tsect);
-	c = ( t_cmds *)malloc(sizeof(c));
-	c->header = (struct mach_header_64 *) ptr;
+	c = (t_cmds *)malloc(sizeof(c));
+	c->header = (struct mach_header_64 *)ptr;
 	c->ncmds = c->header->ncmds;
-	c->lc = (void *)ptr + sizeof(*(c->header)); 
-	if (l == 1 || c->header->filetype == MH_OBJECT || c->header->filetype == MH_DYLIB)
+	c->lc = (void *)ptr + sizeof(*(c->header));
+	if (l == 1 || c->header->filetype == MH_OBJECT || \
+		c->header->filetype == MH_DYLIB)
 		tsect->lib = 1;
 	tsect->namebin = name;
 	i = 0;
 	while (i < c->ncmds)
+	{
+		if (c->lc->cmd == LC_SEGMENT_64)
+			tsect = get_seg_table((void *)c->lc, tsect);
+		if (c->lc->cmd == LC_SYMTAB)
 		{
-			if (c->lc->cmd == LC_SEGMENT_64)
-				tsect = get_seg_table((void *)c->lc, tsect);
-  			if (c->lc->cmd == LC_SYMTAB)
-				{
-					c->sym = (struct symtab_command *) c->lc;
-					print_output_64(c->sym->nsyms, c->sym->symoff,c->sym->stroff, ptr,tsect);
-					break;
-				}
-			c->lc = (void *) c->lc + c->lc->cmdsize;
-			i++;
+			c->sym = (struct symtab_command *)c->lc;
+			print_output_64(c, ptr, tsect);
+			break ;
 		}
-		free(c);
-		free_tsect(tsect);
+		c->lc = (void *)c->lc + c->lc->cmdsize;
+		i++;
+	}
+	free(c);
+	free_tsect(tsect);
 }
-
-

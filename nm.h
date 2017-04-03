@@ -74,7 +74,7 @@ typedef struct			s_env
 {
 	char 				sym;
 	t_sect				*tmp;
-	int 				i;
+	int					i;
 	char				*stringtable;
 	struct nlist_64 	*array;
 	struct nlist	 	*array32;
@@ -106,7 +106,7 @@ char		*ft_atoi_hex_fat(unsigned int ptr);
 char		*uint8tochar(uint8_t c);
 char		*inttobyte(int c);
 
-void    print_output_64(int nsyms, int symoff, int stroff, void *ptr, t_sect *tsect);
+void    print_output_64(t_cmds *c, void *ptr, t_sect *tsect);
 t_env*	init_env(t_env *e, void *ptr, int symoff, int stroff);
 #endif
 
