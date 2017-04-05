@@ -18,9 +18,9 @@ LFTIPATH = -I $(LFTPATH)
 LFT = -L $(LFTPATH) -lft
 
 
-OBJPATH = obj
-SRCPATH = .
-INCLUDE = -I ./
+OBJPATH = obj_nm
+SRCPATH = src_nm
+INCLUDE = -I ./includes/
 
 
 CC = clang
@@ -46,7 +46,6 @@ SRCSFILES = main.c \
 			seg_sect.c \
 			seg_sect32.c \
 			manage_list.c \
-			manage_list_res.c \
 			bin.c \
 			print_list.c \
 
