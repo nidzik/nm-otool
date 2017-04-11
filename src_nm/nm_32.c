@@ -13,7 +13,7 @@
 #include "nm.h"
 #include <limits.h>
 
-void		ft_boucle_32(t_env *e)
+void		ft_boucle_32(t_env *e, t_sect *tsect)
 {
 	while (e->tmp != NULL)
 	{
@@ -33,6 +33,12 @@ void		ft_boucle_32(t_env *e)
 			break ;
 		}
 	}
+	if (tsect->fat == 1)
+		e->res = add(e->res, e->stringtable + e->array32[e->i].n_un.n_strx,\
+					ft_atoi_hex_fat(e->array32[e->i].n_value), e->sym);
+	else
+		e->res = add(e->res, e->stringtable + e->array32[e->i].n_un.n_strx,\
+					ft_atoi_hex_32(e->array32[e->i].n_value, e->sym), e->sym);
 }
 
 void		print_output_32(t_cmds32 *c, void *ptr, t_sect *tsect)
@@ -50,16 +56,7 @@ void		print_output_32(t_cmds32 *c, void *ptr, t_sect *tsect)
 			(int)(((unsigned char)e->array32[e->i].n_type) >> 6 & 1) != 1 && \
 			(int)(((unsigned char)e->array32[e->i].n_type) >> 7 & 1) != 1)
 		{
-			ft_boucle_32(e);
-			if (tsect->fat == 1)
-				e->res = add(e->res, e->stringtable + \
-							e->array32[e->i].n_un.n_strx, \
-							ft_atoi_hex_fat(e->array32[e->i].n_value), e->sym);
-			else
-				e->res = add(e->res, e->stringtable + \
-							e->array32[e->i].n_un.n_strx, \
-							ft_atoi_hex_32(e->array32[e->i].n_value, e->sym), \
-							e->sym);
+			ft_boucle_32(e, tsect);
 		}
 		e->i++;
 	}
@@ -75,16 +72,11 @@ void		handle_32(void *ptr, int l, char *name, int ac)
 
 	tsect = malloc(sizeof(t_sect));
 	lst_init(tsect);
-	tsect->ac = ac;
 	c = (t_cmds32 *)malloc(sizeof(c));
-	tsect->fat = 0;
-	c->header = (struct mach_header *)ptr;
-	c->ncmds = c->header->ncmds;
-	c->lc = (void *)ptr + sizeof(*(c->header));
+	i = init_handle_32(ac, c, tsect, ptr);
 	if (l == 1 || c->header->filetype == MH_OBJECT)
 		tsect->lib = 1;
 	tsect->namebin = name;
-	i = 0;
 	while (i < c->ncmds)
 	{
 		if (c->lc->cmd == LC_SEGMENT)

@@ -34,14 +34,14 @@ void	cmp_segdata(t_sect *sect)
 
 void	fill_sym(t_sect *sect)
 {
-	//printf("%s  %s \n",sect->segname, sect->sectname);
 	if (ft_strcmp(sect->segname, SEG_TEXT) == 0)
 		cmp_segtxt(sect);
 	else if (ft_strcmp(sect->segname, SEG_DATA) == 0)
 		cmp_segdata(sect);
 	else if (ft_strcmp(sect->segname, SEG_OBJC) == 0)
 		sect->sym = 'S';
-	else if (ft_strcmp(sect->segname, SEG_IMPORT) == 0 || ft_strcmp(sect->segname, "__la_symbol_ptr") == 0)
+	else if (ft_strcmp(sect->segname, SEG_IMPORT) == 0 ||\
+			ft_strcmp(sect->segname, "__la_symbol_ptr") == 0)
 		sect->sym = 'I';
 	else if (sect->lib == 1)
 	{
@@ -55,8 +55,6 @@ void	fill_sym(t_sect *sect)
 
 void	lst_init(t_sect *tsect)
 {
-	static int i  = 0;
-	i++;
 	tsect->segname = NULL;
 	tsect->sectname = NULL;
 	tsect->nsym = 0;
@@ -74,10 +72,7 @@ void	lst_add(t_sect *tsect, char *seg, \
 {
 	t_sect		*tmp;
 	t_sect		*new;
-//	static int	j = 0;
-	int 		k;
 
-	k = 0;
 	tmp = tsect;
 	while (tmp->next != NULL)
 		tmp = tmp->next;
@@ -86,24 +81,8 @@ void	lst_add(t_sect *tsect, char *seg, \
 	new->sectname = sect;
 	new->sym = 0;
 	if (i == 0 && ft_strcmp(seg, SEG_PAGEZERO) != 0)
-	{
 		i++;
-		k++;
-//		new->sym = i++;
-//	tsect->statik++;
-	}
-//	tsect->statik++;
-		new->nsym = tsect->statik++;
-
-//	 if (tsect->ac > 2)
-//		new->nsym = i ;
-
-
-
-
-//	else
-
-
+	new->nsym = tsect->statik++;
 	if (tmp->lib == 1)
 	{
 		new->lib = 1;

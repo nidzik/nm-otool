@@ -28,7 +28,7 @@
 
 
 #define DEBUG ft_putchar('a');
-
+#define RAN_SIZE sizeof(struct ranlib)
 
 typedef struct			s_cmds32
 {
@@ -82,6 +82,15 @@ typedef struct			s_env
 	t_res				*res;
 }						t_env;
 
+typedef struct			s_atoi
+{
+	char				*base;
+	unsigned long long	address;
+	char				*hex;
+	int					i;
+	int					check;
+}						t_atoi;
+
 int			nm_type(void* ptr, int l, char *name, int ac);
 void 		handle_32(void *ptr, int l, char *name, int ac);
 void		handle_64(void *ptr, int l, char *name, int ac);
@@ -109,5 +118,12 @@ char		*inttobyte(int c);
 
 void    print_output_64(t_cmds *c, void *ptr, t_sect *tsect);
 t_env*	init_env(t_env *e, void *ptr, int symoff, int stroff);
+
+uint32_t    swap_little_big(uint32_t num);
+int		init_handle_32(int ac, t_cmds32 *c, t_sect *tsect, void *ptr);
+void    init_atoi(t_atoi *a);
+int		breaak(char mask, t_env *e);
+int init_handle64(t_sect *sect, t_cmds *c, void *ptr, int l);
+
 #endif
 

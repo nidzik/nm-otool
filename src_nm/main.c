@@ -13,17 +13,15 @@
 #include "nm.h"
 
 #define ARCH "!<arch>\n"
+#define MN "magic_number"
 
-int	nm_type(void *ptr, int l, char *name, int ac)
+int	nm_type_next(int magic_number, void *ptr, char *name, int l)
 {
-	int		magic_number;
+	int		ac;
 	char	*magic_string;
 
-	magic_number = *(int *)ptr;
 	magic_string = (char *)ptr;
-//	printf("%d",magic_number);fflush(stdout);
-	if (magic_number == 1647255843 || magic_number == 1966022947)
-		return (-1);
+	ac = 2;
 	if (magic_number == (int)MH_MAGIC_64 && l == 1)
 		handle_64(ptr, 1, name, ac);
 	else if (magic_number == (int)MH_MAGIC_64 && (l == 0 || l == 2))
@@ -35,12 +33,29 @@ int	nm_type(void *ptr, int l, char *name, int ac)
 	else if (ft_strncmp(magic_string, ARCH, 8) == 0)
 		handle_lib((char *)ptr, name, ac);
 	else
+		return (1);
+	return (0);
+}
+
+int	nm_type(void *ptr, int l, char *name, int ac)
+{
+	int		magic_number;
+	char	*magic_string;
+
+	magic_number = *(int *)ptr;
+	magic_string = (char *)ptr;
+	if (magic_number == (int)MH_MAGIC_64 || magic_number == (int)MH_MAGIC ||\
+		ft_strncmp(magic_string, ARCH, 8) == 0 ||\
+		magic_number == (int)swap_little_big(FAT_MAGIC))
 	{
-		magic_number = *((int *)((void *)ptr + 4096));
-		if (magic_number == (int)MH_MAGIC_64)
-			handle_64(ptr + 4096, 0, name, ac);
-		else
-			handle_fat((void *)ptr, ac);
+		if (nm_type_next(magic_number, ptr, name, l) == 1)
+		{
+			magic_number = *((int *)((void *)ptr + 4096));
+			if (magic_number == (int)MH_MAGIC_64)
+				handle_64(ptr + 4096, 0, name, ac);
+			else
+				handle_fat((void *)ptr, ac);
+		}
 	}
 	return (1);
 }
@@ -49,7 +64,7 @@ int	mmap_file(int fd, char *name, int args)
 {
 	void		*ptr;
 	struct stat buf;
-	
+
 	ptr = NULL;
 	if (fstat(fd, &buf) < 0)
 		return (-1);

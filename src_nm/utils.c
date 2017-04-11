@@ -37,64 +37,57 @@ void	print_bit_uint8_t(uint8_t ptr)
 
 char	*ft_atoi_hex(void *ptr, char c)
 {
-	char							*base;
-	unsigned long long				address;
-	char							*hex;
-	int								i;
-	int								check;
+	t_atoi *a;
 
-	base = "0123456789abcdef";
-	address = (unsigned long long)ptr;
-	if (c != 'U' && c != 'u' && !address)
+	a = (t_atoi *)malloc(sizeof(t_atoi));
+	a->base = "0123456789abcdef";
+	a->address = (unsigned long long)ptr;
+	if (c != 'U' && c != 'u' && !a->address)
 		return ("0000000000000000");
-	hex = (char *)malloc(sizeof(char) * 16);
-	ft_bzero(hex, 17);
-	i = 15;
-	check = 0;
-	while (address)
+	init_atoi(a);
+	while (a->address)
 	{
-		check = 1;
-		hex[i] = base[address % 16];
-		address = address / 16;
-		i--;
+		a->check = 1;
+		a->hex[a->i] = a->base[a->address % 16];
+		a->address = a->address / 16;
+		a->i--;
 	}
-	if (i != 0 && check == 1)
-		while (i >= 0)
-			hex[i--] = '0';
-	if (check == 1)
-		return (ft_strjoin("\0", hex));
+	if (a->i != 0 && a->check == 1)
+		while (a->i >= 0)
+			a->hex[a->i--] = '0';
+	if (a->check == 1)
+	{
+		a->hex[16] = '\0';
+		return (a->hex);
+	}
 	else
 		return ("                ");
 }
 
 char	*ft_atoi_hex_32(unsigned int ptr, char c)
 {
-	char						*base;
-	unsigned long long			address;
-	char						*hex;
-	int							i;
-	int							check;
+	t_atoi *a;
 
-	base = "0123456789abcdef";
-	address = (unsigned long long)ptr;
-	if (c != 'U' && c != 'u' && !address)
+	a = (t_atoi *)malloc(sizeof(t_atoi));
+	a->base = "0123456789abcdef";
+	a->address = (unsigned long long)ptr;
+	if (c != 'U' && c != 'u' && !a->address)
 		return ("00000000");
-	hex = (char *)malloc(sizeof(char) * 10);
-	ft_bzero(hex, 10);
-	i = 7;
-	check = 0;
-	while (address)
+	a->hex = (char *)malloc(sizeof(char) * 10);
+	a->i = 7;
+	a->check = 0;
+	while (a->address)
 	{
-		check = 1;
-		hex[i] = base[address % 16];
-		address = address / 16;
-		i--;
+		a->check = 1;
+		a->hex[a->i] = a->base[a->address % 16];
+		a->address = a->address / 16;
+		a->i--;
 	}
-	if (i != 0 && check == 1)
-		while (i >= 0)
-			hex[i--] = '0';
-	if (check == 1)
-		return (hex);
+	if (a->i != 0 && a->check == 1)
+		while (a->i >= 0)
+			a->hex[a->i--] = '0';
+	if (a->check == 1)
+		return (ft_strjoin("\0", a->hex));
 	else
 		return ("        ");
 }
@@ -105,12 +98,11 @@ char	*ft_atoi_hex_fat(unsigned int ptr)
 	unsigned long long				address;
 	char							*hex;
 	int								i;
-	int 							check;
+	int								check;
 
 	base = "0123456789abcdef";
 	address = (unsigned long long)ptr;
 	hex = (char *)malloc(sizeof(char) * 10);
-	ft_bzero(hex, 10);
 	i = 10;
 	check = 0;
 	while (address)

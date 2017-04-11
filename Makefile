@@ -37,16 +37,17 @@ CFLAGS = $(BASEFLAGS) -Werror -O2 -g
 LFTCALL = all
 LFTRE = re
 
-SRCSFILES = main.c \
+SRCSFILES =	main.c \
 			nm_64.c \
 			nm_32.c \
 			nm_lib.c \
 			utils.c \
 			utils2.c \
+			utils3.c \
+			bin.c \
 			seg_sect.c \
 			seg_sect32.c \
 			manage_list.c \
-			bin.c \
 			print_list.c \
 
 SRC = $(addprefix $(SRCPATH)/,$(SRCSFILES))

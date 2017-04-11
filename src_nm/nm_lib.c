@@ -12,7 +12,7 @@
 
 #include "nm.h"
 
-int		t_atoi(const char *str)
+int		t_atoii(const char *str)
 {
 	int r;
 	int np;
@@ -58,7 +58,7 @@ void	print_library(void *ptr, struct ranlib *ran, \
 			ft_putstr(ptr + ran[n].ran_off + sizeof(struct ar_hdr));
 			ft_putstr("):\n");
 			nm_type((void *)ptr + ran[n].ran_off + sizeof(struct ar_hdr)
-					+ t_atoi(ptr + ran[n].ran_off + 3), 1, "lib", 0);
+					+ t_atoii(ptr + ran[n].ran_off + 3), 1, "lib", 0);
 		}
 		check_ran = ran[n].ran_off;
 	}
@@ -103,14 +103,13 @@ void	handle_lib(char *ptr, char *namelib, int ac)
 	if (ft_strcmp(ptr + SARMAG + sizeof(struct ar_hdr), SYMDEF) &&
 		ft_strcmp(ptr + SARMAG + sizeof(struct ar_hdr), SYMDEF_SORTED))
 		return ;
-	hdr_sz = t_atoi(ptr + SARMAG + ft_strlen(AR_EFMT1)) + \
+	hdr_sz = t_atoii(ptr + SARMAG + ft_strlen(AR_EFMT1)) + \
 		sizeof(struct ar_hdr) + SARMAG;
 	i = *(int *)(ptr + hdr_sz) / sizeof(struct ranlib);
 	ran = (struct ranlib *)malloc(sizeof(struct ranlib) * i);
 	while (i-- > 0)
 	{
-		ran[i] = *(struct ranlib *)(ptr + hdr_sz + 4 + i * \
-									(sizeof(struct ranlib)));
+		ran[i] = *(struct ranlib *)(ptr + hdr_sz + 4 + i * RAN_SIZE);
 	}
 	i = *(int *)(ptr + hdr_sz) / sizeof(struct ranlib);
 	sort_library(ran, i);

@@ -18,7 +18,8 @@ static void	print_value(int n, t_otool_env *e)
 		printf("00000000%08x", n);
 	else if (e->lib && e->cpu == 32)
 		printf("%08x", n);
-	else if (e->dylib || e->obj || e->lib || (e->cpu == 32 && e->fat == 1))
+	else if (e->dylib || e->obj || e->lib || (e->cpu == 32 && e->fat == 1) ||\
+		e->bundle)
 		printf("00000000%08x", n);
 	else if (e->cpu == 64)
 		printf("00000001%08x", n);

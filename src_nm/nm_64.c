@@ -16,11 +16,10 @@
 void	free_tsect(t_sect *t)
 {
 	t_sect	*tmp;
-	
+
 	if (t == NULL)
 		return ;
 	tmp = t;
-//	while (tmp->next)
 	{
 		tmp = t->next;
 		free(t);
@@ -44,38 +43,19 @@ void	ft_boucle(t_env *e)
 {
 	char c;
 	char mask;
-	
+
 	c = e->array[e->i].n_type;
 	mask = c & N_TYPE;
-//	ft_putendl("MASK");
 	while (e->tmp != NULL)
 	{
-		if (mask == N_INDR)
-		{
-			e->sym = 'I';
+		if (breaak(mask, e) == 0)
 			break ;
-		}
-		else if (mask == N_ABS)
-		{
-			e->sym = 'A';
-			break;
-		}
-		else if ((int)(e->array[e->i].n_sect) == 0)
-		{
-			e->sym = 'U';
-			break ;
-		}
 		if (e->tmp->nsym != (int)(e->array[e->i].n_sect))
-		{
 			e->tmp = e->tmp->next;
-		}
 		else
 		{
 			if ((e->array[e->i].n_type >> 0 & 1) == 0)
-			{
 				e->sym = (ft_tolower(e->tmp->sym));
-//				printf("gg");fflush(stdout);
-			}
 			else
 				e->sym = (e->tmp->sym);
 			break ;
@@ -85,8 +65,7 @@ void	ft_boucle(t_env *e)
 				ft_atoi_hex((void *)e->array[e->i].n_value, e->sym), e->sym);
 }
 
-void	print_output_64(t_cmds *c, void *ptr, \
-						t_sect *tsect)
+void	print_output_64(t_cmds *c, void *ptr, t_sect *tsect)
 {
 	struct section_64	*sect;
 	t_env				*e;
@@ -106,8 +85,6 @@ void	print_output_64(t_cmds *c, void *ptr, \
 		e->i++;
 	}
 	print_list(e->res);
-//	if (tsect->ac > 2)
-//		free_tsect(tsect);
 	free(e);
 }
 
@@ -120,16 +97,9 @@ void	handle_64(void *ptr, int l, char *name, int ac)
 	tsect = malloc(sizeof(t_sect));
 	lst_init(tsect);
 	tsect->ac = ac;
-	c = (t_cmds *)malloc(sizeof(c));
-	c->header = (struct mach_header_64 *)ptr;
-	c->ncmds = c->header->ncmds;
-	c->lc = (void *)ptr + sizeof(*(c->header));
-	if (l == 1 || c->header->filetype == MH_OBJECT || \
-		c->header->filetype == MH_DYLIB)
-		tsect->lib = 1;
 	tsect->namebin = name;
-//	tsect->statik = 0;
-	i = 0;
+	c = (t_cmds *)malloc(sizeof(c));
+	i = init_handle64(tsect, c, ptr, l);
 	while (i < c->ncmds)
 	{
 		if (c->lc->cmd == LC_SEGMENT_64)
@@ -138,13 +108,10 @@ void	handle_64(void *ptr, int l, char *name, int ac)
 		{
 			c->sym = (struct symtab_command *)c->lc;
 			print_output_64(c, ptr, tsect);
-//			tsect->statik = 0;
-//	free_tsect(tsect);
 			break ;
 		}
 		c->lc = (void *)c->lc + c->lc->cmdsize;
 		i++;
-
 	}
 	free(c);
 }
