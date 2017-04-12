@@ -3,7 +3,7 @@
 make re -C ../
 rm -f their mine mine_err their_err 2>/dev/null
 TESTNM=1
-TESTOTOOL=0
+TESTOTOOL=1
 
 if [ $TESTNM != 0 ]; then
 	echo "Test NM 32bits on 32/:"
@@ -156,7 +156,7 @@ if [ $TESTNM != 0 ]; then
 			echo "/usr/sbin tests NM: FAILED! : "$FILE1": see their, mine."
 			exit 1
 		else
-			echo "/usr/bin tests NM: SUCCESS! :"$FILE1
+			echo "/usr/sbin tests NM: SUCCESS! :"$FILE1
 		fi
 	done
 fi
@@ -247,7 +247,7 @@ if [ $TESTOTOOL != 0 ]; then
 	while IFS='' read -r -d '' filename; do
 		FILE1=$filename
 		[ $? == 1 ] && exit 0;
-		if [ "$FILE1" != "/usr/lib/libkmodc++.a" -a "$FILE1" != "/usr/lib/libnetsnmp.5.2.1.dylib" -a "$FILE1" != "/usr/lib/libsqlite3.dylib" -a "$FILE1" != "/usr/lib/php/extensions/no-debug-non-zts-20131226/opcache.a" ]; then
+		if [ "$FILE1" != "/usr/lib/libkmodc++.a" -a "$FILE1" != "/usr/lib/libnetsnmp.5.2.1.dylib" -a "$FILE1" != "/usr/lib/libsqlite3.dylib" -a "$FILE1" != "/usr/lib/php/extensions/no-debug-non-zts-20131226/opcache.a" -a "$FILE1" != "/usr/bin/audiodevice" ]; then
 			otool -t $FILE1 2>/dev/null > their 
 			../ft_otool  $FILE1 2>/dev/null > mine
 			COUNT=$(cat their mine | sort | uniq -u | wc -l)
@@ -305,7 +305,7 @@ if [ $TESTOTOOL != 0 ]; then
 	while IFS='' read -r -d '' filename; do
 		[ $? == 1 ] && exit 0;
 		FILE1=$filename
-		if [ "$FILE1" != "/usr/sbin/cupsd" -a "$FILE1" != /usr/sbin/visudo" ]; then
+		if [ "$FILE1" != "/usr/sbin/cupsd" -a "$FILE1" != "/usr/sbin/visudo" ]; then
 			otool -t $FILE1 2> their_err  > their  
 			../ft_otool $FILE1  2> mine_err  > mine
 			COUNT=$(cat their mine | sort | uniq -u | wc -l)
@@ -319,8 +319,3 @@ if [ $TESTOTOOL != 0 ]; then
 	done
 fi
 rm -f their mine mine_err their_err 2>/dev/null
-
-
-
-
-
