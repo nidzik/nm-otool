@@ -55,10 +55,10 @@ SRCSFILESNM  =	main.c \
 				print_list.c 
 
 SRCSFILESOT  =	main.c \
-				common_otool.c \
-				handle_otool_fat.c \
-				handle_otool_lib.c \
-				handle_otool_32_64.c
+				otool_utils.c \
+				otool_fat.c \
+				otool_lib.c \
+				otool_32_64.c
 
 
 SRCNM = $(addprefix $(SRCPATHNM)/,$(SRCSFILESNM))

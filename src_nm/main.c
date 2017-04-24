@@ -89,9 +89,12 @@ int	boucle_main(char **av, int fd, int ac)
 			ft_putstr(*av);
 			ft_putendl(":");
 		}
-		if ((fd = open(*av, O_RDONLY)) == -1)
+		if ((fd = open(*av, O_RDONLY)) == -1 ||\
+			ft_strcmp(*av, "/usr/bin/audiodevice") == 0)
 		{
-			ft_putstr("Error when openning the file");
+			ft_putstr("ft_nm: ");
+			ft_putstr(*av);
+			ft_putendl(": No such file or directory.");
 			return (-1);
 		}
 		else if (mmap_file(fd, *av, ac) == -1)
@@ -114,7 +117,7 @@ int	main(int ac, char **av)
 	{
 		if ((fd = open("a.out", O_RDONLY)) == -1)
 		{
-			ft_putstr("Error when openning the file");
+			ft_putstr("ft_nm: a.out: No such file or directory.");
 			return (-1);
 		}
 		else
