@@ -65,10 +65,7 @@ void	lst_init(t_sect *tsect)
 	tsect->statik = 0;
 	tsect->namebin = NULL;
 	tsect->next = NULL;
-<<<<<<< HEAD
 	tsect->sizefile = 0;
-=======
->>>>>>> 5f8684bb7f11b7fb7332581a02bc698efb0cb007
 }
 
 void	lst_add(t_sect *tsect, char *seg, \

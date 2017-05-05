@@ -110,12 +110,8 @@ void		handle_fat(void *ptr, int ac)
 	t_sect					*tsect;
 	struct fat_arch			*arch;
 	struct mach_header_64	*h64;
-<<<<<<< HEAD
 	t_relou *r = NULL;
 	
-=======
-
->>>>>>> 5f8684bb7f11b7fb7332581a02bc698efb0cb007
 	tsect = malloc(sizeof(t_sect));
 	lst_init(tsect);
 	c = (t_cmds32 *)malloc(sizeof(c->header));
@@ -128,14 +124,8 @@ void		handle_fat(void *ptr, int ac)
 	h64 = malloc(sizeof(struct mach_header_64));
 	h64 = (void *)ptr + (swap_little_big(arch->offset));
 	if (h64->filetype == MH_DYLIB || h64->filetype == MH_DYLINKER)
-<<<<<<< HEAD
 		handle_64((void *)ptr + swap_little_big(arch->offset), 1, *r, ac);
 	else
 		handle_64((void *)ptr + swap_little_big(arch->offset), 0, *r, ac);
-=======
-		handle_64((void *)ptr + swap_little_big(arch->offset), 1, NULL, ac);
-	else
-		handle_64((void *)ptr + swap_little_big(arch->offset), 0, NULL, ac);
->>>>>>> 5f8684bb7f11b7fb7332581a02bc698efb0cb007
 	return ;
 }

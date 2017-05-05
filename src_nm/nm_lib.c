@@ -43,13 +43,9 @@ void	print_library(void *ptr, struct ranlib *ran, \
 						unsigned int n, char *namelib)
 {
 	unsigned int check_ran;
-<<<<<<< HEAD
 	t_relou r;
 
 	r.name = "lib";
-=======
-
->>>>>>> 5f8684bb7f11b7fb7332581a02bc698efb0cb007
 	(void)ptr;
 	(void)namelib;
 	check_ran = -1;
@@ -64,11 +60,7 @@ void	print_library(void *ptr, struct ranlib *ran, \
 			ft_putstr(ptr + ran[n].ran_off + sizeof(struct ar_hdr));
 			ft_putstr("):\n");
 			nm_type((void *)ptr + ran[n].ran_off + sizeof(struct ar_hdr)
-<<<<<<< HEAD
 					+ t_atoii(ptr + ran[n].ran_off + 3), 1, r, 0);
-=======
-					+ t_atoii(ptr + ran[n].ran_off + 3), 1, "lib", 0);
->>>>>>> 5f8684bb7f11b7fb7332581a02bc698efb0cb007
 		}
 		check_ran = ran[n].ran_off;
 	}

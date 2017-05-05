@@ -91,18 +91,12 @@ void		print_otool(uint32_t size, uint32_t addr, char *offset,
 		i = 0;
 		while (i < 16 && n + i < size)
 		{
-<<<<<<< HEAD
 		  if(ft_strcmp(offset, "") != 0 ){
 			print_byte_uint8_t((unsigned char)(offset[n + i]));
 			ft_putchar(' ');
 			i++;}
 		  else
 		    exit(0);
-=======
-			print_byte_uint8_t((unsigned char)(offset[n + i]));
-			ft_putchar(' ');
-			i++;
->>>>>>> 5f8684bb7f11b7fb7332581a02bc698efb0cb007
 		}
 		ft_putchar('\n');
 		n += i;
