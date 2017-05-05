@@ -15,7 +15,11 @@
 #define ARCH "!<arch>\n"
 #define MN "magic_number"
 
+<<<<<<< HEAD
+int	nm_type_next(int magic_number, void *ptr, t_relou name, int l)
+=======
 int	nm_type_next(int magic_number, void *ptr, char *name, int l)
+>>>>>>> 5f8684bb7f11b7fb7332581a02bc698efb0cb007
 {
 	int		ac;
 	char	*magic_string;
@@ -27,17 +31,29 @@ int	nm_type_next(int magic_number, void *ptr, char *name, int l)
 	else if (magic_number == (int)MH_MAGIC_64 && (l == 0 || l == 2))
 		handle_64(ptr, 0, name, ac);
 	else if (magic_number == (int)MH_MAGIC && l == 1)
+<<<<<<< HEAD
+		handle_32(ptr, 1, name.name, ac);
+	else if (magic_number == (int)MH_MAGIC && l == 0)
+		handle_32(ptr, 0, name.name, ac);
+	else if (ft_strncmp(magic_string, ARCH, 8) == 0)
+		handle_lib((char *)ptr, name.name, ac);
+=======
 		handle_32(ptr, 1, name, ac);
 	else if (magic_number == (int)MH_MAGIC && l == 0)
 		handle_32(ptr, 0, name, ac);
 	else if (ft_strncmp(magic_string, ARCH, 8) == 0)
 		handle_lib((char *)ptr, name, ac);
+>>>>>>> 5f8684bb7f11b7fb7332581a02bc698efb0cb007
 	else
 		return (1);
 	return (0);
 }
 
+<<<<<<< HEAD
+int	nm_type(void *ptr, int l, t_relou name, int ac)
+=======
 int	nm_type(void *ptr, int l, char *name, int ac)
+>>>>>>> 5f8684bb7f11b7fb7332581a02bc698efb0cb007
 {
 	int		magic_number;
 	char	*magic_string;
@@ -64,7 +80,12 @@ int	mmap_file(int fd, char *name, int args)
 {
 	void		*ptr;
 	struct stat buf;
+<<<<<<< HEAD
+	t_relou n;
+	
+=======
 
+>>>>>>> 5f8684bb7f11b7fb7332581a02bc698efb0cb007
 	ptr = NULL;
 	if (fstat(fd, &buf) < 0)
 		return (-1);
@@ -73,7 +94,13 @@ int	mmap_file(int fd, char *name, int args)
 	{
 		return (-1);
 	}
+<<<<<<< HEAD
+	n.name = name;
+	n.sizefile = (int)buf.st_size;
+	nm_type(ptr, 0, n, args);
+=======
 	nm_type(ptr, 0, name, args);
+>>>>>>> 5f8684bb7f11b7fb7332581a02bc698efb0cb007
 	if (munmap(ptr, buf.st_size) < 0)
 		return (-1);
 	return (0);

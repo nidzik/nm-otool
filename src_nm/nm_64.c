@@ -76,6 +76,11 @@ void	print_output_64(t_cmds *c, void *ptr, t_sect *tsect)
 	while (e->i < (int)c->sym->nsyms)
 	{
 		e->tmp = tsect;
+<<<<<<< HEAD
+		if (tsect->sizefile < (int)c->sym->symoff || tsect->sizefile < (int)c->sym->stroff)
+		  exit(1);
+=======
+>>>>>>> 5f8684bb7f11b7fb7332581a02bc698efb0cb007
 		if ((int)(((unsigned char)e->array[e->i].n_type) >> 5 & 1) != 1 && \
 			(int)(((unsigned char)e->array[e->i].n_type) >> 6 & 1) != 1 && \
 			(int)(((unsigned char)e->array[e->i].n_type) >> 7 & 1) != 1)
@@ -88,7 +93,11 @@ void	print_output_64(t_cmds *c, void *ptr, t_sect *tsect)
 	free(e);
 }
 
+<<<<<<< HEAD
+void	handle_64(void *ptr, int l, t_relou name, int ac)
+=======
 void	handle_64(void *ptr, int l, char *name, int ac)
+>>>>>>> 5f8684bb7f11b7fb7332581a02bc698efb0cb007
 {
 	int		i;
 	t_cmds	*c;
@@ -97,7 +106,12 @@ void	handle_64(void *ptr, int l, char *name, int ac)
 	tsect = malloc(sizeof(t_sect));
 	lst_init(tsect);
 	tsect->ac = ac;
+<<<<<<< HEAD
+	tsect->namebin = name.name;
+	tsect->sizefile = name.sizefile;
+=======
 	tsect->namebin = name;
+>>>>>>> 5f8684bb7f11b7fb7332581a02bc698efb0cb007
 	c = (t_cmds *)malloc(sizeof(c));
 	i = init_handle64(tsect, c, ptr, l);
 	while (i < c->ncmds)

@@ -6,7 +6,11 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/11 11:55:25 by nidzik            #+#    #+#             */
+<<<<<<< HEAD
+/*   Updated: 2017/05/05 20:54:44 by nidzik           ###   ########.fr       */
+=======
 /*   Updated: 2017/02/27 22:31:55 by nidzik           ###   ########.fr       */
+>>>>>>> 5f8684bb7f11b7fb7332581a02bc698efb0cb007
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +34,15 @@
 # define DEBUG ft_putchar('a');
 # define RAN_SIZE sizeof(struct ranlib)
 
+<<<<<<< HEAD
+typedef struct				s_relou
+{
+	char					*name;
+	int						sizefile;
+}							t_relou;
+
+=======
+>>>>>>> 5f8684bb7f11b7fb7332581a02bc698efb0cb007
 typedef struct				s_cmds32
 {
 	int						ncmds;
@@ -58,6 +71,10 @@ typedef struct				s_sect
 	int						nsym;
 	int						ac;
 	int						statik;
+<<<<<<< HEAD
+	int						sizefile;
+=======
+>>>>>>> 5f8684bb7f11b7fb7332581a02bc698efb0cb007
 	struct s_sect			*next;
 }							t_sect;
 
@@ -90,9 +107,15 @@ typedef struct				s_atoi
 	int						check;
 }							t_atoi;
 
+<<<<<<< HEAD
+int							nm_type(void *ptr, int l, t_relou name, int ac);
+void						handle_32(void *ptr, int l, char *name, int ac);
+void						handle_64(void *ptr, int l, t_relou name, int ac);
+=======
 int							nm_type(void *ptr, int l, char *name, int ac);
 void						handle_32(void *ptr, int l, char *name, int ac);
 void						handle_64(void *ptr, int l, char *name, int ac);
+>>>>>>> 5f8684bb7f11b7fb7332581a02bc698efb0cb007
 void						handle_fat(void *ptr, int ac);
 void						handle_lib(char *ptr, char *namelib, int ac);
 char						*ft_itoa_base(unsigned long long int nb, int base);
