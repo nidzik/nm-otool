@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 21:40:50 by nidzik            #+#    #+#             */
-/*   Updated: 2017/03/04 15:59:33 by nidzik           ###   ########.fr       */
+/*   Updated: 2017/05/30 16:37:34 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,14 +104,13 @@ uint32_t	swap_little_big(uint32_t num)
 	return (swapped);
 }
 
-void		handle_fat(void *ptr, int ac)
+void		handle_fat(void *ptr, int ac, t_relou r)
 {
 	t_cmds32				*c;
 	t_sect					*tsect;
 	struct fat_arch			*arch;
 	struct mach_header_64	*h64;
-	t_relou *r = NULL;
-	
+
 	tsect = malloc(sizeof(t_sect));
 	lst_init(tsect);
 	c = (t_cmds32 *)malloc(sizeof(c->header));
@@ -124,8 +123,8 @@ void		handle_fat(void *ptr, int ac)
 	h64 = malloc(sizeof(struct mach_header_64));
 	h64 = (void *)ptr + (swap_little_big(arch->offset));
 	if (h64->filetype == MH_DYLIB || h64->filetype == MH_DYLINKER)
-		handle_64((void *)ptr + swap_little_big(arch->offset), 1, *r, ac);
+		handle_64((void *)ptr + swap_little_big(arch->offset), 1, r, ac);
 	else
-		handle_64((void *)ptr + swap_little_big(arch->offset), 0, *r, ac);
+		handle_64((void *)ptr + swap_little_big(arch->offset), 0, r, ac);
 	return ;
 }

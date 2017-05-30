@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/11 11:55:25 by nidzik            #+#    #+#             */
-/*   Updated: 2017/05/05 20:54:44 by nidzik           ###   ########.fr       */
+/*   Updated: 2017/05/30 16:38:53 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ typedef struct				s_atoi
 int							nm_type(void *ptr, int l, t_relou name, int ac);
 void						handle_32(void *ptr, int l, char *name, int ac);
 void						handle_64(void *ptr, int l, t_relou name, int ac);
-void						handle_fat(void *ptr, int ac);
+void						handle_fat(void *ptr, int ac, t_relou r);
 void						handle_lib(char *ptr, char *namelib, int ac);
 char						*ft_itoa_base(unsigned long long int nb, int base);
 t_sect						*get_seg_table(void *ptr_seg, t_sect *tsect);
