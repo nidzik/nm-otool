@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/26 20:36:26 by nidzik            #+#    #+#             */
-/*   Updated: 2017/03/31 17:24:01 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/04/01 22:29:05 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	nm_type(void *ptr, int l, t_relou name, int ac)
 			if (magic_number == (int)MH_MAGIC_64)
 				handle_64(ptr + 4096, 0, name, ac);
 			else
-				handle_fat((void *)ptr, ac);
+				handle_fat((void *)ptr, ac, name);
 		}
 	}
 	return (1);
